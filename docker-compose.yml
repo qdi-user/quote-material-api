@@ -1,0 +1,9 @@
+version: '3.8'
+
+services:
+  quote-material-api:
+    build: .
+    ports:
+      - "8000:10000"
+    container_name: quote-material-api
+
