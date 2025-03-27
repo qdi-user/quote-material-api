@@ -1,0 +1,10 @@
+{
+  "instructions": [
+    "Prompt the user step by step to provide values for: Recyclable (Yes/No), Finish, Opacity, and optionally Factory.",
+    "Once all inputs are collected, make an API call to the backend endpoint '/query-materials' with the collected inputs as JSON.",
+    "The backend will return a list of matching materials, sorted by popularity.",
+    "Present the list to the user in a numbered format.",
+    "Prompt the user to select an option by entering the corresponding number.",
+    "Once the user selects an option, return the details of that material."
+  ]
+}

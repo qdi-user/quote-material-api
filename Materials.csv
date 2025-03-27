@@ -1,0 +1,235 @@
+﻿Factory,Description,Material,fx_Description,fx Material Structure,Total Thickness,Material 1,Material 2,Material 3,Material 4,Finish,Opacity,Finish for Clear Area,Barrier,Hologram,Matte Varnish,Metallized Film,Microwaveable,Recyclable,Soft Touch,Spot UV,Window,Inactive
+Canada CA,Clear Glossy,PET/PET/PE,Glossy,PET/PET/PE,,PET,PET,PE,,Glossy,Clear,Glossy,No,No,No,No,No,No,No,No,No,false
+Canada CA,Kraft Paper,30# Natural Kraft Paper/48g MET PET / 3.5mil PE,Opaque Kraft Paper,Kraft Paper/MET PET/PE,3.98,Kraft Paper,MET PET,PE,,Kraft Paper,Opaque,None,Yes,No,No,Yes,No,No,No,No,No,false
+Canada CA,Opaque Glossy,PET/MET PET/PE,Opaque Glossy,PET/MET PET/PE,0.00,PET,MET PET,PE,,Glossy,Opaque,None,Yes,No,No,Yes,No,No,No,No,No,false
+Canada CA,Opaque Glossy with Window,PET/PET/PE,Glossy with Window,PET/PET/PE,,PET,PET,PE,,Glossy,Opaque with Window,Glossy,No,No,No,No,No,No,No,No,Yes,false
+Canada CA,Opaque Matte - Matte Film,Matte OPP/MET PET/PE,Opaque Matte (Film),Matte OPP/MET PET/PE,0.00,Matte OPP,MET PET,PE,,Matte,Opaque,None,Yes,No,No,Yes,No,No,No,No,No,false
+Canada CA,Opaque Matte - Matte PET,52g V Matte PET / 48g Chem MET PET / 3.5 mil Clear PE,Opaque Matte (Film),Soft Touch PET/MET PET/PE,4.50,Soft Touch PET,MET PET,PE,,Matte,Opaque,None,Yes,No,No,Yes,No,No,No,No,No,false
+Canada CA,Opaque Matte - Recyclable,PE/EVOH-based PE,Recyclable PE Matte (Film),PE/EVOH-PE,0.00,PE,EVOH-PE,,,Matte,Clear,Matte,No,No,No,No,No,PE,No,No,No,false
+Canada CA,Opaque Matte with Spot UV,PET/MET PET/PE + Matte Oil,Opaque Matte with Spot UV,PET/MET PET/PE + Spot UV + Matte Varnish,,PET,MET PET,PE,,Matte,Opaque,None,Yes,No,Yes,Yes,No,No,No,Yes,No,false
+Canada CA,Opaque Matte with Window,Matte OPP/PET/PE,Matte (Film) with Window,Matte OPP/PET/PE,0.00,Matte OPP,PET,PE,,Matte,Opaque with Window,Matte,No,No,No,No,No,No,No,No,Yes,false
+Canada WP,Clear Glossy,PET/PET/PE,Glossy,PET/PET/PE,,PET,PET,PE,,Glossy,Clear,Glossy,No,No,No,No,No,No,No,No,No,false
+Canada WP,Opaque Glossy,PET/MET PET/PE,Opaque Glossy,PET/MET PET/PE,,PET,MET PET,PE,,Glossy,Opaque,None,Yes,No,No,Yes,No,No,No,No,No,false
+Canada WP,Opaque Glossy with Window,PET/PET/PE,Glossy with Window,PET/PET/PE,,PET,PET,PE,,Glossy,Opaque with Window,Glossy,No,No,No,No,No,No,No,No,Yes,false
+Canada WP,Opaque Matte - Matte Film,Matte PET/MET PET/PE,Opaque Matte (Film),Matte PET/MET PET/PE,,Matte PET,MET PET,PE,,Matte,Opaque,None,Yes,No,No,Yes,No,No,No,No,No,false
+Canada WP,Opaque Matte with Window,Matte PET/PET/PE,Matte (Film) with Window,Matte PET/PET/PE,,Matte PET,PET,PE,,Matte,Opaque with Window,Matte,No,No,No,No,No,No,No,No,Yes,false
+Canada WP,Recyclable - Opaque Glossy,1 mil PE / 3 mil EVOH-PE,Recyclable PE Glossy,PE/EVOH-PE,4.00,PE,EVOH-PE,,,Glossy,Clear,Glossy,No,No,No,No,No,PE,No,No,No,false
+Canada WP,Recyclable - Opaque Matte,1 mil Matte PE / 3 mil EVOH-PE,Recyclable PE Matte (Film),Matte PE/EVOH-PE,4.00,Matte PE,EVOH-PE,,,Matte,Clear,Matte,No,No,No,No,No,PE,No,No,No,false
+Canada WP,Recyclable - Opaque Matte with Spot UV,1 mil Matte PE / 3 mil EVOH-PE + Registered Matte Oil,Recyclable PE Matte with Spot UV,Matte PE/EVOH-PE + Spot UV + Matte Varnish,4.00,Matte PE,EVOH-PE,,,Matte,Clear,Glossy,No,No,Yes,No,No,PE,No,Yes,No,false
+China,Clear Glossy,PET/PET/PE,Glossy,PET/PET/PE,,PET,PET,PE,,Glossy,Clear,Glossy,No,No,No,No,No,No,No,No,No,false
+China,Clear Glossy with Spot UV,PET/PET/PE + Matte Oil,Matte with Spot UV,PET/PET/PE + Spot UV + Matte Varnish,,PET,PET,PE,,Matte,Clear,Glossy,No,No,Yes,No,No,No,No,Yes,No,false
+China,Glossy PET/PE,PET/PE,Glossy,PET/PE,,PET,PE,,,Glossy,Clear,Glossy,No,No,No,No,No,No,No,No,No,false
+China,Iridescent - Opaque Matte with Transparent Hologram (Spot UV),Soft Touch Matte/Laser VMPET/PE,Matte with Hologram Spot UV,Soft Touch PET/Laser VMPET/PE + Spot UV + Matte Varnish,4.69,Soft Touch PET,Laser VMPET,PE,,Matte,Opaque,None,No,Yes,Yes,No,No,No,No,Yes,No,false
+China,Kraft Paper,Kraft/NY/VMPET/PE,Opaque Kraft Paper,Kraft Paper/NY/VMPET/PE,,Kraft Paper,NY,VMPET,PE,Kraft Paper,Opaque,None,Yes,No,No,Yes,No,No,No,No,No,false
+China,Kraft Paper w/ Window,Kraft/NY/PET/PE,Kraft Paper with Window,Kraft Paper/NY/PET/PE,,Kraft Paper,NY,PET,PE,Kraft Paper,Opaque with Window,Glossy,No,No,No,No,No,No,No,No,Yes,false
+China,Matte OPP Coated - No Foil,Matte OPP20/KPET14/PE95,Matte (Film) with Barrier No Metal Film,Matte OPP/KPET/PE,5.08,Matte OPP,KPET,PE,,Matte,Clear,Matte,Yes,No,No,No,No,No,No,No,No,false
+China,Microwavable Liquid Spout Film,PET/NY/CPP,Microwaveable Glossy,PET/NY/CPP,,PET,NY,CPP,,Glossy,Clear,Glossy,No,No,No,No,Yes,No,No,No,No,false
+China,Opaque Glossy,PET/VMPET/PE,Opaque Glossy,PET/VMPET/PE,,PET,VMPET,PE,,Glossy,Opaque,None,Yes,No,No,Yes,No,No,No,No,No,false
+China,Opaque Glossy - No Foil,PET/PET/PE,Glossy,PET/PET/PE,,PET,PET,PE,,Glossy,Opaque,Glossy,No,No,No,No,No,No,No,No,No,false
+China,Opaque Glossy with Hologram,PET/Laser PET/PE,Opaque Glossy with Hologram,PET/Laser PET/PE,,PET,Laser PET,PE,,Glossy,Opaque,None,Yes,Yes,No,Yes,No,No,No,No,No,false
+China,Opaque Glossy with Window,PET/PET/PE,Glossy with Window,PET/PET/PE,,PET,PET,PE,,Glossy,Opaque with Window,Glossy,No,No,No,No,No,No,No,No,Yes,false
+China,Opaque Matte - Matte Film,80g Matte OPP/0.48mil VMPET/3.5mil PE,Opaque Matte (Film),Matte OPP/VMPET/PE,4.78,Matte OPP,VMPET,PE,,Matte,Opaque,None,Yes,No,No,Yes,No,No,No,No,No,false
+China,Opaque Matte - Matte Film - 2 Ply No Foil,Matte OPP/PE,Matte (Film),Matte OPP/PE,,Matte OPP,PE,,,Matte,Opaque,Matte,No,No,No,No,No,No,No,No,No,false
+China,Opaque Matte - Matte Film - No Foil,Matte OPP/PET/PE,Matte (Film),Matte OPP/PET/PE,,Matte OPP,PET,PE,,Matte,Opaque,Matte,No,No,No,No,No,No,No,No,No,false
+China,Opaque Matte - Matte Lacquer - No Foil,PET/PET/PE + Matte Oil,Matte with Spot UV,PET/PET/PE + Spot UV + Matte Varnish,,PET,PET,PE,,Matte,Opaque,Matte,No,No,Yes,No,No,No,No,Yes,No,false
+China,Opaque Matte - Velvet Soft Touch,Soft Touch Matte/VMPET/PE,Opaque Soft Touch,Soft Touch PET/VMPET/PE,,Soft Touch PET,VMPET,PE,,Soft Touch,Opaque,None,Yes,No,No,Yes,No,No,Yes,No,No,false
+China,Opaque Matte / Matte PET - 3 mil PE,PET/VMPET/PE - 3 mil PE,Opaque Matte (Film),Matte OPP/VMPET/PE,,Matte OPP,VMPET,PE,,Matte,Opaque,None,Yes,No,No,Yes,No,No,No,No,No,false
+China,Opaque Matte AL,Matte OPP/AL/PE,Opaque Matte (Film),Matte OPP/AL/PE,,Matte OPP,AL,PE,,Matte,Opaque,None,Yes,No,No,Yes,No,No,No,No,No,false
+China,Opaque Matte with Hologram Spot UV,PET/Laser VMPET/PE + Spot UV + Matte Varnish,Opaque Matte with Hologram Spot UV,PET/Laser VMPET/PE + Spot UV + Matte Varnish,4.69,PET,Laser VMPET,PE,,Matte,Opaque,None,Yes,Yes,Yes,Yes,No,No,No,Yes,No,false
+China,Opaque Matte with Spot UV,PET/VMPET/PE + Matte Oil,Opaque Matte with Spot UV,PET/VMPET/PE + Spot UV + Matte Varnish,,PET,VMPET,PE,,Matte,Opaque,None,Yes,No,Yes,Yes,No,No,No,Yes,No,false
+China,Opaque Matte with Transparent Hologram Spot UV,PET/Laser PET/PE + Spot UV + Matte Varnish,Matte with Hologram Spot UV,PET/Laser PET/PE + Spot UV + Matte Varnish,4.69,PET,Laser PET,PE,,Matte,Clear,Glossy,No,Yes,Yes,No,No,No,No,Yes,No,false
+China,Opaque Matte with Transparent Hologram Spot UV (White PE),PET/Laser PET/White PE + Spot UV + Matte Varnish,Matte with Hologram Spot UV,PET/Laser PET/White PE + Spot UV + Matte Varnish,4.69,PET,Laser PET,White PE,,Matte,Clear,Glossy,No,Yes,Yes,No,No,No,No,Yes,No,false
+China,Opaque Matte with Window,PET/PET/PE + Matte Oil,Matte with Spot UV Window,PET/PET/PE + Spot UV + Matte Varnish,,PET,PET,PE,,Matte,Opaque with Window,Glossy,No,No,Yes,No,No,No,No,Yes,Yes,false
+China,PCR - Recycled - Opaque Matte,PCR Film + Matte Oil,Recyclable PCR Matte (Varnish),PCR-PE + Matte Varnish,,PCR-PE,,,,Matte,Opaque,Matte,No,No,Yes,No,No,PCR,No,No,No,false
+China,PCR - Recycled Opaque Matte - Matte Oil,PE/VMPET/PCR-PE + Matte Varnish,Opaque Recyclable PCR Matte (Varnish),PE/VMPET/PCR-PE + Matte Varnish,4.69,PE,VMPET,PCR-PE,,Matte,Opaque,None,Yes,No,Yes,Yes,No,PCR,No,No,No,false
+China,PET Coated - No Foil,PET12/KPET14/PE95,Glossy,PET/KPET/PE,4.76,PET,KPET,PE,,Glossy,Opaque,Matte,No,No,No,No,No,No,No,No,No,false
+China,Recyclable - Opaque Glossy,PE/EVOH-based PE,Recyclable PE Glossy,PE/EVOH-PE,,PE,EVOH-PE,,,Glossy,Opaque,Glossy,No,No,No,No,No,PE,No,No,No,false
+China,Recyclable - Opaque Matte,PE/EVOH based PE,Recyclable PE Matte (Film),PE/EVOH-PE,,PE,EVOH-PE,,,Matte,Opaque,Matte,No,No,No,No,No,PE,No,No,No,false
+China,Recyclable - Opaque Matte with Spot UV,PE/EVOH-based PE + Matte Oil,Recyclable PE Matte with Spot UV,PE/EVOH-PE + Spot UV + Matte Varnish,,PE,EVOH-PE,,,Matte,Opaque,Glossy,No,No,Yes,No,No,PE,No,Yes,No,false
+China,Rice Paper,Rice/NY/VMPET/PE,Opaque Rice Paper,Rice Paper/NY/VMPET/PE,,Rice Paper,NY,VMPET,PE,Rice Paper,Opaque,None,Yes,No,No,Yes,No,No,No,No,No,false
+China,Rice Paper w/ Soft Touch Matte - No Foil,Soft Touch Matte OPP20/25g Rice Paper/PE95,Rice Paper,Soft Touch OPP/Rice Paper/PE,4.78,Soft Touch OPP,Rice Paper,PE,,Rice Paper,Opaque,None,No,No,No,No,No,No,Yes,No,No,false
+China,Smell Proof,OPP/NY/EVOH,Glossy,OPP/NY/EVOH,,OPP,NY,EVOH,,Glossy,Clear,Glossy,No,No,No,No,No,No,No,No,No,false
+China,Soft Touch Matte - No Foil,Soft Touch Matte/PET/PE,Soft Touch,Soft Touch PET/PET/PE,,Soft Touch PET,PET,PE,,Soft Touch,Clear,Matte,No,No,No,No,No,No,Yes,No,No,false
+China,Soft Touch Matte w/ White PE,Soft Touch Matte/White PE,Soft Touch,Soft Touch PET/White PE,,Soft Touch PET,White PE,,,Soft Touch,Opaque,Matte,No,No,No,No,No,No,Yes,No,No,false
+China Boxes,0.35mm Clear Blister,APET,Glossy,APET,0.35,APET,,,,Glossy,Clear,Glossy,No,No,No,No,No,No,No,No,No,false
+China Boxes,0.35mm White Blister,White APET,Glossy,White APET,0.35,White APET,,,,Glossy,Opaque,Glossy,No,No,No,No,No,No,No,No,No,false
+China Boxes,0.5mm Clear Blister,APET,Glossy,APET,0.50,APET,,,,Glossy,Clear,Glossy,No,No,No,No,No,No,No,No,No,false
+China Boxes,130g White Kraft Bag,White Kraft Paper,Recyclable Paper Matte (Film),White Kraft Paper,0.00,White Kraft Paper,,,,Matte,Opaque,None,No,No,No,No,No,Paper,No,No,No,false
+China Boxes,150g Kraft Paper,Kraft Paper/Greyboard/Kraft Paper + Spot UV,Recyclable Paper Kraft Paper with Spot UV,Kraft Paper/Greyboard/Kraft Paper + Spot UV,11.00,Kraft Paper,Greyboard,Kraft Paper,,Kraft Paper,Opaque,None,No,No,No,No,No,Paper,No,Yes,No,false
+China Boxes,250.0ga Kraft,250g Kraft,Kraft Paper,Kraft Paper,2.50,Kraft Paper,,,,Kraft Paper,Clear,None,No,No,No,No,No,No,No,No,No,false
+China Boxes,300.0gsm Glossy,300g C1S (Food Grade) Glossy,Glossy,C1S,300.00,C1S,,,,Glossy,Opaque,None,No,No,No,No,No,No,No,No,No,false
+China Boxes,300.0gsm Matte,300g C1S (Food Grade) Matte,Matte (Film),C1S,300.00,C1S,,,,Matte,Opaque,None,No,No,No,No,No,No,No,No,No,false
+China Boxes,300.0gsm Matte w/ Spot UV,300g C1S (Food Grade) Matte w/ Spot UV,Matte (Film) with Spot UV,C1S + Spot UV,300.00,C1S,,,,Matte,Opaque,None,No,No,No,No,No,No,No,Yes,No,false
+China Boxes,350.0gsm Glossy,350g C1S (Food Grade) Glossy Finish,Glossy,FDA Paper,350.00,FDA Paper,,,,Glossy,Opaque,None,No,No,No,No,No,No,No,No,No,false
+China Boxes,350.0gsm Matte,350g C1S (Food Grade) Matte Finish,Matte (Varnish),FDA Paper + Matte Varnish,350.00,FDA Paper,,,,Matte,Opaque,None,No,No,Yes,No,No,No,No,No,No,false
+China Boxes,350.0gsm Matte w/ Spot UV,350g C1S (Food Grade) Matte w/ Spot UV,Matte (Film) with Spot UV,FDA Paper + Spot UV,350.00,FDA Paper,,,,Matte,Opaque,None,No,No,No,No,No,No,No,Yes,No,false
+China Boxes,400.0ga CCNB Kraft,400g CCNB (Food Grade) Kraft,Kraft Paper,CCNB,4.00,CCNB,,,,Kraft Paper,Clear,None,No,No,No,No,No,No,No,No,No,false
+China Boxes,Art Paper Tube,Art Paper/White Card,Recyclable Paper Matte (Film),Art Paper/White Card,157.00,Art Paper,White Card,,,Matte,Opaque,None,No,No,No,No,No,Paper,No,No,No,false
+China Boxes,Art Paper Tube w Paper Button,Art Paper/White Card/Paper Button,Recyclable Paper Matte (Film),Art Paper/White Card/Paper Button,40.94,Art Paper,White Card,Paper Button,,Matte,Opaque,None,No,No,No,No,No,Paper,No,No,No,false
+China Boxes,Art Paper Tube w Plastic Button,Art Paper/White Card/Plastic Button,Recyclable Paper Matte (Film),Art Paper/White Card/Plastic Button,40.94,Art Paper,White Card,Plastic Button,,Matte,Opaque,None,No,No,No,No,No,Paper,No,No,No,false
+China Boxes,Matte Finish,157g Artpaper + 700g Greyboard + 250gCCNB,Matte (Film),Art Paper/Greyboard/CCNB,1107.00,Art Paper,Greyboard,CCNB,,Matte,Opaque,None,No,No,No,No,No,No,No,No,No,false
+China Boxes,Soft Touch Matte Finish,157g Artpaper + 700g Greyboard + 250gCCNB,Matte (Film),Art Paper/Greyboard/CCNB,1107.00,Art Paper,Greyboard,CCNB,,Matte,Opaque,None,No,No,No,No,No,No,Yes,No,No,false
+China Boxes 2,0.35mm Clear Blister,APET,Glossy,APET,0.35,APET,,,,Glossy,Clear,Glossy,No,No,No,No,No,No,No,No,No,false
+China Boxes 2,0.35mm White Blister,White APET,Glossy,White APET,13.78,White APET,,,,Glossy,Opaque,Glossy,No,No,No,No,No,No,No,No,No,false
+China Boxes 2,150g Kraft Paper,Kraft Paper/Greyboard/Kraft Paper + Spot UV,Recyclable Paper Kraft Paper with Spot UV,Kraft Paper/Greyboard/Kraft Paper + Spot UV,11.00,Kraft Paper,Greyboard,Kraft Paper,,Kraft Paper,Opaque,None,No,No,No,No,No,Paper,No,Yes,No,false
+China Boxes 2,250.0ga Kraft,Kraft Paper,Kraft Paper,Kraft Paper,2.50,Kraft Paper,,,,Kraft Paper,Clear,None,No,No,No,No,No,No,No,No,No,false
+China Boxes 2,300.0gsm Glossy,C1S,Glossy,C1S,300.00,C1S,,,,Glossy,Opaque,None,No,No,No,No,No,No,No,No,No,false
+China Boxes 2,300.0gsm Matte,C1S,Matte (Film),C1S,300.00,C1S,,,,Matte,Opaque,None,No,No,No,No,No,No,No,No,No,false
+China Boxes 2,300.0gsm Matte w/ Spot UV,C1S + Spot UV,Matte (Film) with Spot UV,C1S + Spot UV,300.00,C1S,,,,Matte,Opaque,None,No,No,No,No,No,No,No,Yes,No,false
+China Boxes 2,350.0gsm Glossy,FDA Paper,Glossy,FDA Paper,350.00,FDA Paper,,,,Glossy,Opaque,None,No,No,No,No,No,No,No,No,No,false
+China Boxes 2,350.0gsm Matte,FDA Paper + Matte Varnish,Matte (Varnish),FDA Paper + Matte Varnish,350.00,FDA Paper,,,,Matte,Opaque,None,No,No,Yes,No,No,No,No,No,No,false
+China Boxes 2,350.0gsm Matte w/ Spot UV,FDA Paper + Spot UV,Matte (Film) with Spot UV,FDA Paper + Spot UV,350.00,FDA Paper,,,,Matte,Opaque,None,No,No,No,No,No,No,No,Yes,No,false
+China Boxes 2,400.0ga CCNB Kraft,CCNB,Kraft Paper,CCNB,4.00,CCNB,,,,Kraft Paper,Clear,None,No,No,No,No,No,No,No,No,No,false
+China Boxes 2,Art Paper Tube,Art Paper/White Card,Recyclable Paper Matte (Film),Art Paper/White Card,157.00,Art Paper,White Card,,,Matte,Opaque,None,No,No,No,No,No,Paper,No,No,No,false
+China Boxes 2,Art Paper Tube w Paper Button,Art Paper/White Card/Paper Button,Recyclable Paper Matte (Film),Art Paper/White Card/Paper Button,40.94,Art Paper,White Card,Paper Button,,Matte,Opaque,None,No,No,No,No,No,Paper,No,No,No,false
+China Boxes 2,Art Paper Tube w Plastic Button,Art Paper/White Card/Plastic Button,Recyclable Paper Matte (Film),Art Paper/White Card/Plastic Button,40.94,Art Paper,White Card,Plastic Button,,Matte,Opaque,None,No,No,No,No,No,Paper,No,No,No,false
+China Boxes 2,Matte Finish,157g Artpaper + 700g Greyboard + 250gCCNB,Matte (Film),Art Paper/Greyboard/CCNB,1107.00,Art Paper,Greyboard,CCNB,,Matte,Opaque,None,No,No,No,No,No,No,No,No,No,false
+China Boxes 2,Matte Finish with Spot UV,157g Artpaper + 700g Greyboard + 250gCCNB,Matte (Film) with Spot UV,Art Paper/Greyboard/CCNB + Spot UV,1107.00,Art Paper,Greyboard,CCNB,,Matte,Opaque,None,No,No,No,No,No,No,No,Yes,No,false
+China Boxes 2,Matte Masking Paper Sticker,Matte Masking Paper Sticker,Recyclable Paper Matte (Film),Matte Masking Paper Sticker,,Matte Masking Paper Sticker,,,,Matte,Opaque,None,No,No,No,No,No,Paper,No,No,No,false
+China Boxes 2,Soft Touch Matte Finish,157g Artpaper + 700g Greyboard + 250gCCNB,Matte (Film),Art Paper/Greyboard/CCNB,1107.00,Art Paper,Greyboard,CCNB,,Matte,Opaque,None,No,No,No,No,No,No,Yes,No,No,false
+China Digital,Chemical Resistant Clear Glossy Pouches,KPET/PET/PE,Glossy,KPET/PET/PE,2.60,KPET,PET,PE,,Glossy,Clear,Glossy,No,No,No,No,No,No,No,No,No,false
+China Digital,Chemical Resistant Opaque Glossy Pouches,KPET/VMPET/PE,Glossy,KPET/VMPET/PE,,KPET,VMPET,PE,,Glossy,Opaque,None,No,No,No,No,No,No,No,No,No,false
+China Digital,Chemical Resistant White Glossy Pouches,KPET/White PET/PE,Glossy,KPET/White PET/PE,2.60,KPET,White PET,PE,,Glossy,Clear,Glossy,No,No,No,No,No,No,No,No,No,false
+China Digital,Clear Glossy,PET/PET/PE,Glossy,PET/PET/PE,,PET,PET,PE,,Glossy,Clear,Glossy,No,No,No,No,No,No,No,No,No,false
+China Digital,Compostable - Opaque Glossy,PLA/CMF,Compostable Glossy,PLA/CMF,,PLA,CMF,,,Glossy,Opaque,Glossy,No,No,No,No,No,Compostable,No,No,No,false
+China Digital,Frosted Matte Black,CPE,Matte (Film),CPE,,CPE,,,,Matte,Clear,Matte,No,No,No,No,No,No,No,No,No,false
+China Digital,Glossy - PET/PE,PET/PE,Glossy,PET/PE,,PET,PE,,,Glossy,Clear,Glossy,No,No,No,No,No,No,No,No,No,false
+China Digital,Glossy Foil with PE Foam Insulation,VMPET/EPE Foam,Opaque Glossy,VMPET/EPE Foam,20.16,VMPET,EPE Foam,,,Glossy,Opaque,None,No,No,No,Yes,No,No,No,No,No,false
+China Digital,Glossy PET NY CPP,PET/NY/CPP,Glossy,PET/NY/CPP,4.61,PET,NY,CPP,,Glossy,Clear,Glossy,No,No,No,No,No,No,No,No,No,false
+China Digital,Iridescent - Clear Glossy with Hologram,PET/Laser PET/PE,Glossy with Hologram,PET/Laser VMPET/PE,0.00,PET,Laser VMPET,PE,,Glossy,Clear,Glossy,No,Yes,No,No,No,No,No,No,No,false
+China Digital,Iridescent - Matte with Hologram,Matte OPP/Laser PET/PE,Opaque Matte (Film) with Hologram Spot UV,Matte OPP/Laser VMPET/PE + Spot UV,0.00,Matte OPP,Laser VMPET,PE,,Matte,Opaque,None,Yes,Yes,No,Yes,No,No,No,Yes,No,false
+China Digital,Iridescent - Matte with Transparent Hologram,Matte OPP/Laser PET/PE + Spot UV,Matte (Film) with Hologram Spot UV,Matte OPP/Laser PET/PE + Spot UV,,Matte OPP,Laser PET,PE,,Matte,Clear,Glossy,No,Yes,No,No,No,No,No,Yes,No,false
+China Digital,Iridescent - Opaque Glossy with Hologram,PET/Laser VMPET/PE,Opaque Glossy with Hologram,PET/Laser VMPET/PE,,PET,Laser VMPET,PE,,Glossy,Opaque,None,Yes,Yes,No,Yes,No,No,No,No,No,false
+China Digital,Iridescent - Opaque Matte (Film) with Hologram (Spot UV),Matte OPP/Laser VMPET/PE w/ Spot UV,Opaque Matte (Film) with Hologram Spot UV,Matte OPP/Laser VMPET/PE + Spot UV,4.61,Matte OPP,Laser VMPET,PE,,Matte,Opaque,None,Yes,Yes,No,Yes,No,No,No,Yes,No,false
+China Digital,Iridescent - Opaque Matte (Varnish) with Hologram Spot UV,PET/Laser VMPET/PE + Matte Varnish,Opaque Matte (Varnish) with Hologram,PET/Laser VMPET/PE + Matte Varnish,4.88,PET,Laser VMPET,PE,,Matte,Opaque,None,Yes,Yes,Yes,Yes,No,No,No,No,No,false
+China Digital,Iridescent - Opaque Matte with Hologram,Matte OPP/VMPET/PE,Opaque Matte (Film) with Hologram,Matte OPP/Laser VMPET/PE,4.61,Matte OPP,Laser VMPET,PE,,Matte,Opaque,None,Yes,Yes,No,Yes,No,No,No,No,No,false
+China Digital,Kraft Paper,Kraft/NY/VMPET/PE,Opaque Kraft Paper,Kraft Paper/NY/VMPET/PE,4.71,Kraft Paper,NY,VMPET,PE,Kraft Paper,Opaque,None,Yes,No,No,Yes,No,No,No,No,No,false
+China Digital,Kraft Paper w/ Window,Kraft/NY/PET/PE,Kraft Paper with Window,Kraft Paper/NY/PET/PE,0.00,Kraft Paper,NY,PET,PE,Kraft Paper,Opaque with Window,Glossy,No,No,No,No,No,No,No,No,Yes,false
+China Digital,Matte OPP Coated - No Foil,Matte OPP/KPET/PE,Matte (Film) with Barrier No Metal Film,Matte OPP/KPET/PE,0.00,Matte OPP,KPET,PE,,Matte,Clear,Matte,Yes,No,No,No,No,No,No,No,No,false
+China Digital,Matte w/ Foil and Glossy Window,Matte OPP/VMPET/PET/PE,Opaque Matte (Film),Matte OPP/VMPET/PET/PE,4.69,Matte OPP,VMPET,PET,PE,Matte,Opaque with Window,Glossy,No,No,No,Yes,No,No,No,No,No,false
+China Digital,Matte with Window,PET/PET/3 mil PE + Matte Oil,Matte (Varnish) with Window,PET/PET/PE + Matte Varnish,3.00,PET,PET,PE,,Matte,Opaque with Window,Glossy,No,No,Yes,No,No,No,No,No,Yes,false
+China Digital,Matte with Window (3 Mil PE),Matte OPP/PET/PE + Spot UV,Matte (Film) with Spot UV Window,Matte OPP/PET/PE + Spot UV,3.00,Matte OPP,PET,PE,,Matte,Opaque with Window,Glossy,No,No,No,No,No,No,No,Yes,Yes,false
+China Digital,Matte with Window (4 Mil PE),Matte OPP/PET/4 mil PE + Spot UV,Matte (Film) with Spot UV Window,Matte OPP/PET/PE + Spot UV,4.00,Matte OPP,PET,PE,,Matte,Opaque with Window,Glossy,No,No,No,No,No,No,No,Yes,Yes,false
+China Digital,Matte with Window (4 Mil PE),PET/PET/4 mil PE + Spot UV + Matte Oil,Matte with Spot UV,PET/PET/PE + Spot UV + Matte Varnish,4.00,PET,PET,PE,,Matte,Opaque with Window,Glossy,No,No,Yes,No,No,No,No,Yes,No,false
+China Digital,NY15/PE40 Glossy ,NY/PE,Glossy,NY/PE,2.17,NY,PE,,,Glossy,Clear,Glossy,No,No,No,No,No,No,No,No,No,false
+China Digital,Opaque Glossy,PET/VMPET/PE,Opaque Glossy,PET/VMPET/PE,,PET,VMPET,PE,,Glossy,Opaque,None,Yes,No,No,Yes,No,No,No,No,No,false
+China Digital,Opaque Glossy (2 layers),PE/PE,Glossy with Barrier No Metal Film,PET/PE,,PET,PE,,,Glossy,Opaque,Glossy,Yes,No,No,No,No,No,No,No,No,false
+China Digital,Opaque Glossy with Matte Oil,PET/VMPET/PE + Matte Oil,Opaque Glossy with Spot UV,PET/VMPET/PE + Spot UV + Matte Varnish,4.00,PET,VMPET,PE,,Glossy,Opaque,None,Yes,No,Yes,Yes,No,No,No,Yes,No,false
+China Digital,Opaque Glossy with Window,PET/PET/PE,Glossy with Window,PET/PET/PE,,PET,PET,PE,,Glossy,Opaque with Window,Glossy,No,No,No,No,No,No,No,No,Yes,false
+China Digital,Opaque LLDPE Coex (2.5mil PE),2.5mil LLDPE Opaque Coex,Glossy,LLDPE Opaque Coex,2.50,LLDPE Opaque Coex,,,,Glossy,Opaque,Matte,No,No,No,No,No,No,No,No,No,false
+China Digital,Opaque Matte ,Matte OPP/VMPET/PE,Matte (Film),Matte OPP/VMPET/PE,4.28,Matte OPP,VMPET,PE,,Matte,Opaque,None,No,No,No,No,No,No,No,No,No,false
+China Digital,Opaque Matte - Matte Film  No MET PET,Matte OPP/PET/PE,Matte (Film),Matte OPP/PET/PE,,Matte OPP,PET,PE,,Matte,Clear,Matte,No,No,No,No,No,No,No,No,No,false
+China Digital,Opaque Matte - Matte Film (4.47mil),80g Matte OPP/0.48mil VMPET/3.5mil PE,Opaque Matte (Film),Matte OPP/VMPET/PE,4.47,Matte OPP,VMPET,PE,,Matte,Opaque,None,Yes,No,No,Yes,No,No,No,No,No,false
+China Digital,Opaque Matte - Matte Film - 2 Ply No Foil,Matte OPP/PE,Matte (Film),Matte OPP/PE,,Matte OPP,PE,,,Matte,Opaque,Matte,No,No,No,No,No,No,No,No,No,false
+China Digital,Opaque Matte - Matte PET Film No MET PET,Matte PET/PET/PE + Matte Varnish,Matte (Film),Matte PET/PET/PE,,Matte PET,PET,PE,,Matte,Opaque,Matte,No,No,No,No,No,No,No,No,No,false
+China Digital,Opaque Matte - Velvet Soft Touch,Soft Touch Matte/VMPET/PE,Opaque Soft Touch,Soft Touch PET/VMPET/PE,4.61,Soft Touch PET,VMPET,PE,,Soft Touch,Opaque,None,Yes,No,No,Yes,No,No,Yes,No,No,false
+China Digital,Opaque Matte AL,Matte OPP/AL/PE,Opaque Matte (Film),Matte OPP/AL/PE,,Matte OPP,AL,PE,,Matte,Opaque,None,Yes,No,No,Yes,No,No,No,No,No,false
+China Digital,Opaque Matte PET with Spot UV,Matte PET/VMPET/PE + Spot UV,Matte (Film) with Spot UV,Matte PET/VMPET/PE + Spot UV,,Matte PET,VMPET,PE,,Matte,Opaque,None,No,No,No,No,No,No,No,Yes,No,false
+China Digital,Opaque Matte w/ Spot UV (3mil PE),PET/VMPET/PE + Spot UV + Matte Varnish,Matte with Spot UV,PET/VMPET/PE + Spot UV + Matte Varnish,,PET,VMPET,PE,,Matte,Opaque,None,No,No,Yes,No,No,No,No,Yes,No,false
+China Digital,Opaque Matte with Spot UV (3mil PE),Matte OPP/VMPET/PE + Spot UV,Opaque Matte (Film) with Spot UV,Matte OPP/VMPET/PE + Spot UV,4.46,Matte OPP,VMPET,PE,,Matte,Opaque,None,Yes,No,No,Yes,No,No,No,Yes,No,false
+China Digital,Opaque Matte with Spot UV (4.47mil),Matte OPP/VMPET/PE + Spot UV,Opaque Matte (Film) with Spot UV,Matte OPP/VMPET/PE + Spot UV,4.47,Matte OPP,VMPET,PE,,Matte,Opaque,None,Yes,No,No,Yes,No,No,No,Yes,No,false
+China Digital,Padded Mailer - Glossy,White PE/Bubbles,Glossy,White PE/Bubbles,2.36,White PE,Bubbles,,,Glossy,Opaque,None,No,No,No,No,No,No,No,No,No,false
+China Digital,Padded Mailer - Matte,Matte OPP/PE/Bubbles,Matte (Film),Matte PET/PE/Bubbles,2.17,Matte PET,PE,Bubbles,,Matte,Opaque,None,No,No,No,No,No,No,No,No,No,false
+China Digital,Padded Mailer Matte,PET/PE/Bubbles,Matte (Film),PET/PE/Bubbles,2.24,PET,PE,Bubbles,,Matte,Clear,Matte,No,No,No,No,No,No,No,No,No,false
+China Digital,PCR - Recycled Glossy,PE/PCR PE/EVOH-PE,Recyclable PCR Glossy,PE/PCR-PE/EVOH-PE,4.72,PE,PCR-PE,EVOH-PE,,Glossy,Clear,Glossy,No,No,No,No,No,PCR,No,No,No,false
+China Digital,PCR - Recycled Matte - Matte Oil,PE/PE/EVOH + Matte Oil,Recyclable PCR Matte (Varnish),PE/PCR-PE/EVOH-PE + Matte Varnish,4.72,PE,PCR-PE,EVOH-PE,,Matte,Clear,Matte,No,No,Yes,No,No,PCR,No,No,No,false
+China Digital,PCR - Recycled Matte - Spot UV,PE/PE/EVOH + Spot UV,Recyclable PCR Matte (Film) with Spot UV,PCR-PE/PE/EVOH + Spot UV,,PCR-PE,PE,EVOH,,Matte,Opaque,Glossy,No,No,No,No,No,PCR,No,Yes,No,false
+China Digital,PCR Kraft Paper w Window,Kraft Paper/NY/PCR-PE/PE,Recyclable PCR Kraft Paper with Window,Kraft Paper/NY/PCR-PE/PE,4.24,Kraft Paper,NY,PCR-PE,PE,Kraft Paper,Opaque with Window,Glossy,No,No,No,No,No,PCR,No,No,Yes,false
+China Digital,PCR w Foil - Recycled Opaque Glossy,PE/PCR-PE/VMPE,Opaque Recyclable PCR Glossy,PE/PCR-PE/VMPE,4.80,PE,PCR-PE,VMPE,,Glossy,Opaque,None,No,No,No,Yes,No,PCR,No,No,No,false
+China Digital,PCR w Foil - Recycled Opaque Matte - Matte Oil,PE/PCR-PE/VMPE + Matte Varnish,Opaque Recyclable PCR Matte (Varnish),PE/PCR-PE/VMPE + Matte Varnish,4.80,PE,PCR-PE,VMPE,,Matte,Opaque,None,No,No,Yes,Yes,No,PCR,No,No,No,false
+China Digital,PCR w Foil - Recycled Opaque Matte - Spot UV,PE/PCR-PE/VMPE + Spot UV,Opaque Recyclable PCR Matte (Film) with Spot UV,PE/PCR-PE/VMPE + Spot UV,4.72,PE,PCR-PE,VMPE,,Matte,Opaque,Glossy,No,No,No,Yes,No,PCR,No,Yes,No,false
+China Digital,PCR w Foil - Recycled Opaque Soft Touch,Soft Touch PE/PCR-PE/VMPE,Opaque Recyclable PCR Soft Touch,Soft Touch PE/PCR-PE/VMPE,4.53,Soft Touch PE,PCR-PE,VMPE,,Soft Touch,Opaque,None,Yes,No,No,Yes,No,PCR,Yes,No,No,false
+China Digital,PET Coated - No Foil,PET/KPET/PE,Glossy,PET/KPET/PE,0.00,PET,KPET,PE,,Glossy,Clear,Glossy,No,No,No,No,No,No,No,No,No,false
+China Digital,Recyclable - Opaque Glossy,PE/EVOH-based PE,Recyclable PE Glossy,PE/EVOH-PE,,PE,EVOH-PE,,,Glossy,Clear,Glossy,No,No,No,No,No,PE,No,No,No,false
+China Digital,Recyclable - Opaque Glossy (3mil),PE30/EVOH-based PE50 Total t=3mil,Recyclable PE Glossy,PE/EVOH-PE,3.15,PE,EVOH-PE,,,Glossy,Clear,Glossy,No,No,No,No,No,PE,No,No,No,false
+China Digital,Recyclable - Opaque Glossy (LLDPE),2.5mil LLDPE,Recyclable PE Glossy,LLDPE,2.50,LLDPE,,,,Glossy,Clear,Glossy,No,No,No,No,No,PE,No,No,No,false
+China Digital,Recyclable - Opaque Matte,PE/EVOH-based PE,Recyclable PE Matte (Film),PE/EVOH-PE,,PE,EVOH-PE,,,Matte,Clear,Matte,No,No,No,No,No,PE,No,No,No,false
+China Digital,Recyclable - Opaque Matte w/ Window & Spot UV,PE/EVOH-based PE + Matte Oil,Recyclable PE Matte with Spot UV Window,PE/EVOH-PE + Spot UV + Matte Varnish,,PE,EVOH-PE,,,Matte,Opaque with Window,Glossy,No,No,Yes,No,No,PE,No,Yes,Yes,false
+China Digital,Recyclable - Opaque Matte with Spot UV,PE/EVOH-based PE + Matte Oil,Recyclable PE Matte with Spot UV,PE/EVOH-PE + Spot UV + Matte Varnish,,PE,EVOH-PE,,,Matte,Clear,Glossy,No,No,Yes,No,No,PE,No,Yes,No,false
+China Digital,Rice Paper,Rice/NY/VMPET/PE,Opaque Rice Paper,Rice Paper/NY/VMPET/PE,0.00,Rice Paper,NY,VMPET,PE,Rice Paper,Opaque,None,Yes,No,No,Yes,No,No,No,No,No,false
+China Digital,Rice Paper w/ Soft Touch Matte - No Foil,Soft Touch Matte20/PET12/30G Rice paper/PE50,Rice Paper,Soft Touch PET/PET/Rice Paper/PE,3.53,Soft Touch PET,PET,Rice Paper,PE,Rice Paper,Opaque,None,No,No,No,No,No,No,Yes,No,No,false
+China Digital,Smell Proof,OPP/NY/EVOH,Glossy,OPP/NY/EVOH,,OPP,NY,EVOH,,Glossy,Clear,Glossy,No,No,No,No,No,No,No,No,No,false
+China Digital,Soft Touch Matte - 39% PCR,PCR Soft Touch Matte PET/PCR MET PET/PCR White PE,Soft Touch,PCR Soft Touch Matte PET/PCR MET PET/PCR White PE,4.54,PCR Soft Touch Matte PET,PCR MET PET,PCR White PE,,Soft Touch,Opaque,None,No,No,No,No,No,No,Yes,No,No,false
+China Digital,Soft Touch Matte - No Foil,Soft Touch Matte/PET/PE,Soft Touch,Soft Touch PET/PET/PE,4.61,Soft Touch PET,PET,PE,,Soft Touch,Clear,Matte,No,No,No,No,No,No,Yes,No,No,false
+China Digital,Soft Touch Matte with Spot UV,Soft Touch Matte/VMPET/PE + Spot UV,Opaque Soft Touch with Spot UV,Soft Touch PET/VMPET/PET + Spot UV,4.61,Soft Touch PET,VMPET,PET,,Soft Touch,Opaque,None,Yes,No,No,Yes,No,No,Yes,Yes,No,false
+China Digital,Soft Touch Matte with Window,Soft Touch Matte/PET/PE + Spot UV Window,Soft Touch with Spot UV Window,Soft Touch Matte/PET/PE + Spot UV,4.61,Soft Touch PET,PET,PE,,Soft Touch,Opaque with Window,Glossy,No,No,No,No,No,No,Yes,Yes,Yes,false
+China Digital,White Kraft Paper w PCR PE ,Kraft Paper/NY/PCR-PE/PE,Recyclable PCR Kraft Paper,Kraft Paper/NY/PCR-PE/PE,5.71,Kraft Paper,NY,PCR-PE,PE,Kraft Paper,Opaque,None,No,No,No,No,No,PCR,No,No,No,false
+China Glass,Glass Glossy Clear,Clear Glossy Glass,Recyclable Glass Glossy,Glass,,Glass,,,,Glossy,Clear,Glossy,No,No,No,No,No,Glass,No,No,No,false
+China Glass,Glass Glossy Opaque,Opaque Glossy Glass,Recyclable Glass Glossy,Glass,,Glass,,,,Glossy,Opaque,None,No,No,No,No,No,Glass,No,No,No,false
+China Glass,Glass Matte Clear,Clear Matte Glass,Recyclable Glass Matte (Varnish),Glass + Matte Varnish,,Glass,,,,Matte,Clear,Matte,No,No,Yes,No,No,Glass,No,No,No,false
+China Glass,Glass Matte Opaque,Opaque Matte Glass,Recyclable Glass Matte (Varnish),Glass + Matte Varnish,,Glass,,,,Matte,Opaque,None,No,No,Yes,No,No,Glass,No,No,No,false
+China Glass 2,Glass Glossy Clear,Glass,Recyclable Glass Glossy,Glass,,Glass,,,,Glossy,Clear,Glossy,No,No,No,No,No,Glass,No,No,No,false
+China Glass 2,Glass Glossy Opaque,Glass,Recyclable Glass Glossy,Glass,,Glass,,,,Glossy,Opaque,None,No,No,No,No,No,Glass,No,No,No,false
+China Glass 2,Glass Matte Clear,Glass + Matte Varnish,Recyclable Glass Matte (Varnish),Glass + Matte Varnish,,Glass,,,,Matte,Clear,Matte,No,No,Yes,No,No,Glass,No,No,No,false
+China Glass 2,Glass Matte Opaque,Glass + Matte Varnish,Recyclable Glass Matte (Varnish),Glass + Matte Varnish,,Glass,,,,Matte,Opaque,None,No,No,Yes,No,No,Glass,No,No,No,false
+China Glass 2,Opal White ,Glass,Recyclable Glass Glossy,Glass,,Glass,,,,Glossy,Opaque,None,No,No,No,No,No,Glass,No,No,No,false
+China Glass 2,PET Jar with CR Cap ,PET,Glossy,PET,,PET,,,,Glossy,Opaque,None,No,No,No,No,No,No,No,No,No,false
+China Tins,Gloss Finish,Tinplated Steel,Recyclable Tin Glossy,Tinplated Steel,,Tinplated Steel,,,,Glossy,Opaque,None,No,No,No,No,No,Tin,No,No,No,false
+China Tins,Matte Finish,Tinplated Steel,Recyclable Tin Matte (Film),Tinplated Steel,,Tinplated Steel,,,,Matte,Opaque,None,No,No,No,No,No,Tin,No,No,No,false
+China Tins,PET (Plastic) ,APET,Matte (Film),APET,19.69,APET,,,,Matte,Opaque,None,No,No,No,No,No,No,No,No,No,false
+UK,Opaque Glossy,48g PET/48g MET PET/4mil PE,Opaque Glossy,PET/MET PET/PE,4.96,PET,MET PET,PE,,Glossy,Opaque,None,Yes,No,No,Yes,No,No,No,No,No,false
+UK,Opaque Glossy -  3mil PE,48g PET/48g MET PET/3mil PE,Opaque Glossy,PET/MET PET/PE,3.96,PET,MET PET,PE,,Glossy,Opaque,None,Yes,No,No,Yes,No,No,No,No,No,false
+UK,Opaque Matte - Matte Film - 3mil PE,80g Matte OPP/48g MET PET/3mil PE,Opaque Matte (Film),Matte OPP/MET PET/PE,4.28,Matte OPP,MET PET,PE,,Matte,Opaque,None,Yes,No,No,Yes,No,No,No,No,No,false
+UK,Opaque Matte - Matte Film 4mil PE,80g Matte OPP/48g MET PET/4mil PE,Opaque Matte (Film),Matte OPP/MET PET/PE,5.28,Matte OPP,MET PET,PE,,Matte,Opaque,None,Yes,No,No,Yes,No,No,No,No,No,false
+UK,Opaque Matte - Matte Flood,48g PET/48g MET PET/4mil PE + Matte Flood,Opaque Matte (Varnish),PET/MET PET/PE + Matte Varnish,4.96,PET,MET PET,PE,,Matte,Opaque,None,Yes,No,Yes,Yes,No,No,No,No,No,false
+UK,Opaque Matte - Matte Flood - 3mil PE,48g PET/48g MET PET/3mil PE + Matte Flood,Opaque Matte (Varnish),PET/MET PET/PE + Matte Varnish,3.96,PET,MET PET,PE,,Matte,Opaque,None,Yes,No,Yes,Yes,No,No,No,No,No,false
+UK,Opaque Matte - Velvet Soft Touch,56g Soft Touch Matte/48g MET PET/4mil PE,Opaque Soft Touch,Soft Touch PET/MET PET/PE,5.04,Soft Touch PET,MET PET,PE,,Soft Touch,Opaque,None,Yes,No,No,Yes,No,No,Yes,No,No,false
+UK,Opaque Matte with Spot UV,PET/MET PET/PE + Matte Lacquer,Opaque Matte with Spot UV,PET/MET PET/PE + Spot UV + Matte Varnish,,PET,MET PET,PE,,Matte,Opaque,None,Yes,No,Yes,Yes,No,No,No,Yes,No,false
+UK,Opaque Matte with Spot UV - Registered 3mil PE,48g PET/48g MET PET/3mil PE + Registered Matte,Opaque Matte with Spot UV,PET/MET PET/PE + Spot UV + Matte Varnish,3.96,PET,MET PET,PE,,Matte,Opaque,None,Yes,No,Yes,Yes,No,No,No,Yes,No,false
+USA AP,48ga Matte PET / 1 mil PET / 2.75 mil PE,Matte PET/PET/PE,Matte (Film),Matte PET/PET/PE,4.23,Matte PET,PET,PE,,Matte,Clear,Matte,No,No,No,No,No,No,No,No,No,false
+USA AP,Clear Glossy,48g PET/48g PET/4mil PE,Glossy,PET/PET/PE,4.96,PET,PET,PE,,Glossy,Clear,Glossy,No,No,No,No,No,No,No,No,No,false
+USA AP,Opaque Glossy,48g PET/48g MET PET/4mil PE,Opaque Glossy,PET/MET PET/PE,4.96,PET,MET PET,PE,,Glossy,Opaque,None,Yes,No,No,Yes,No,No,No,No,No,false
+USA AP,Opaque Glossy with Window,48g PET/48g PET/4mil PE,Glossy with Window,PET/PET/PE,4.96,PET,PET,PE,,Glossy,Opaque with Window,Glossy,No,No,No,No,No,No,No,No,Yes,false
+USA AP,Opaque Matte - Matte Film,80g Matte OPP/48g MET PET/4mil PE,Opaque Matte (Film),Matte OPP/MET PET/PE,5.28,Matte OPP,MET PET,PE,,Matte,Opaque,None,Yes,No,No,Yes,No,No,No,No,No,false
+USA AP,Opaque Matte - Matte Lacquer,48g PET/48g MET PET/4mil PE + Matte Lacquer,Opaque Matte (Varnish),PET/MET PET/PE + Matte Varnish,4.96,PET,MET PET,PE,,Matte,Opaque,None,Yes,No,Yes,Yes,No,No,No,No,No,false
+USA AP,Opaque Matte - Matte PET,Matte PET/MET PET/PE,Opaque Matte (Film),Matte PET/MET PET/PE,3.96,Matte PET,MET PET,PE,,Matte,Opaque,None,Yes,No,No,Yes,No,No,No,No,No,false
+USA AP,Opaque Matte - Velvet Soft Touch,56g Soft Touch Matte/48g MET PET/4mil PE,Opaque Soft Touch,Soft Touch PET/MET PET/PE,5.04,Soft Touch PET,MET PET,PE,,Soft Touch,Opaque,None,Yes,No,No,Yes,No,No,Yes,No,No,false
+USA AP,Opaque Matte Matte Film,Matte OPP/VMPET/PE + Spot UV,Matte (Film) with Spot UV,Matte OPP/MET PET/PE + Spot UV,4.96,Matte OPP,MET PET,PE,,Matte,Opaque,None,No,No,No,No,No,No,No,Yes,No,false
+USA AP,Opaque Matte with Hazy Window,Matte OPP/PET/PE,Matte (Film) with Window,Matte OPP/PET/PE,,Matte OPP,PET,PE,,Matte,Opaque with Window,Matte,No,No,No,No,No,No,No,No,Yes,false
+USA AP,Opaque Matte with Spot UV,PET/MET PET/PE + Matte Lacquer,Opaque Matte with Spot UV,PET/MET PET/PE + Spot UV + Matte Varnish,,PET,MET PET,PE,,Matte,Opaque,None,Yes,No,Yes,Yes,No,No,No,Yes,No,false
+USA AP,PCR Soft Touch Matte,PCR Soft Touch Matte PET/PCR MET PET/PCR-PE,Recyclable PCR Soft Touch,PCR Soft Touch Matte PET/PCR MET PET/PCR White PE,4.54,PCR Soft Touch Matte PET,PCR MET PET,PCR White PE,,Soft Touch,Opaque,None,No,No,No,No,No,PCR,Yes,No,No,false
+USA EL,Clear Glossy,48g PET/48g PET/4mil PE,Glossy,PET/PET/PE,4.96,PET,PET,PE,,Glossy,Clear,Glossy,No,No,No,No,No,No,No,No,No,false
+USA EL,Kraft Paper,Kraft Paper/ MET PET/ PET,Opaque Kraft Paper,Kraft Paper/MET PET/PET,,Kraft Paper,MET PET,PET,,Kraft Paper,Opaque,None,Yes,No,No,Yes,No,No,No,No,No,false
+USA EL,Opaque Glossy,48g PET/48g MET PET/4mil PE,Opaque Glossy,PET/MET PET/PE,4.96,PET,MET PET,PE,,Glossy,Opaque,None,Yes,No,No,Yes,No,No,No,No,No,false
+USA EL,Opaque Glossy with Window,48g PET/48g PET/4mil PE,Glossy with Window,PET/PET/PE,4.96,PET,PET,PE,,Glossy,Opaque with Window,Glossy,No,No,No,No,No,No,No,No,Yes,false
+USA EL,Opaque Matte - Matte Film,80g Matte OPP/48g MET PET/4mil PE,Opaque Matte (Film),Matte OPP/MET PET/PE,5.28,Matte OPP,MET PET,PE,,Matte,Opaque,None,Yes,No,No,Yes,No,No,No,No,No,false
+USA EL,Opaque Matte - Matte Lacquer,48g PET/48g MET PET/4mil PE + Matte Lacquer,Opaque Matte (Varnish),PET/MET PET/PE + Matte Varnish,4.96,PET,MET PET,PE,,Matte,Opaque,None,Yes,No,Yes,Yes,No,No,No,No,No,false
+USA EL,Opaque Matte - Velvet Soft Touch,56g Soft Touch Matte/48g MET PET/4mil PE,Opaque Soft Touch,Soft Touch PET/MET PET/PE,5.04,Soft Touch PET,MET PET,PE,,Soft Touch,Opaque,None,Yes,No,No,Yes,No,No,Yes,No,No,false
+USA EL,Opaque Matte with Spot UV,PET/MET PET/PE + Matte Lacquer,Opaque Matte with Spot UV,PET/MET PET/PE + Spot UV + Matte Varnish,,PET,MET PET,PE,,Matte,Opaque,None,Yes,No,Yes,Yes,No,No,No,Yes,No,false
+USA EL,Opaque Matte with Window,Matte OPP/PET/PE,Matte (Film) with Window,Matte OPP/PET/PE,,Matte OPP,PET,PE,,Matte,Opaque with Window,Matte,No,No,No,No,No,No,No,No,Yes,false
+USA PPC,Clear Glossy - 3mil PE no barrier,48g PET/3 mil PE ,Glossy,PET/PE,3.48,PET,PE,,,Glossy,Clear,Glossy,No,No,No,No,No,No,No,No,No,false
+USA PPC,Clear Glossy - 3mil PE w/ barrier,0.50G ALOX/3.0 mil LLDPE,Glossy,ALOX/LLDPE,3.01,ALOX,LLDPE,,,Glossy,Clear,Glossy,No,No,No,No,No,No,No,No,No,false
+USA PPC,Clear Glossy - 3mil PE w/ barrier,.50 ALOX PET/3 mil PE ,Glossy,ALOX/PE,3.01,ALOX,PE,,,Glossy,Clear,Glossy,No,No,No,No,No,No,No,No,No,false
+USA PPC,Clear Glossy - 3mil PE w/ barrier/matte varnish,0.50G ALOX/3.0 mil LLDPE + Registered Matte Lacquer,Matte (Varnish) with Window,ALOX/LLDPE + Matte Varnish,3.01,ALOX,LLDPE,,,Matte,Opaque with Window,Glossy,No,No,Yes,No,No,No,No,No,Yes,false
+USA PPC,Clear Glossy - 3mil PE w/ matte varnish,48g PET/3 mil PE  + Registered Matte Lacquer,Matte (Varnish) with Window,PET/PE + Matte Varnish,3.48,PET,PE,,,Matte,Opaque with Window,Glossy,No,No,Yes,No,No,No,No,No,Yes,false
+USA PPC,Clear Glossy - 4mil PE matte varnish,48g PET/4 mil PE  + Registered Matte Lacquer,Matte (Varnish) with Window,PET/PE + Matte Varnish,4.48,PET,PE,,,Matte,Opaque with Window,Glossy,No,No,Yes,No,No,No,No,No,Yes,false
+USA PPC,Clear Glossy - 4mil PE w/ barrier,0.50G ALOX/4.0 mil LLDPE,Glossy,ALOX/LLDPE,4.01,ALOX,LLDPE,,,Glossy,Clear,Glossy,No,No,No,No,No,No,No,No,No,false
+USA PPC,Clear Glossy - 4mil PE w/ barrier/matte varnish,0.50G ALOX/4.0 mil LLDPE + Registered Matte Lacquer,Glossy (Varnish),ALOX/LLDPE + Matte Varnish,4.01,ALOX,LLDPE,,,Glossy,Clear,Matte,No,No,Yes,No,No,No,No,No,No,false
+USA PPC,Matte Film - Matte PET - 3 mil,Matte 48g PET / 48m MET PET / 3.0 mil LLDPE ,Opaque Matte (Film),Matte PET/MET PET/LLDPE,3.96,Matte PET,MET PET,LLDPE,,Matte,Opaque,None,Yes,No,No,Yes,No,No,No,No,No,false
+USA PPC,Opaque Glossy - 3mil PE,48g PET/48g MET PET/3 mil PE,Opaque Glossy,PET/MET PET/PE,3.96,PET,MET PET,PE,,Glossy,Opaque,None,Yes,No,No,Yes,No,No,No,No,No,false
+USA PPC,Opaque Glossy - 4mil PE,48g PET/48g MET PET/4 mil PE,Opaque Glossy,PET/MET PET/PE,4.96,PET,MET PET,PE,,Glossy,Opaque,None,Yes,No,No,Yes,No,No,No,No,No,false
+USA PPC,Opaque Glossy - KPET,0.50 ga ALOX /0.54 PVDC Coated PET /3.0 LLDPE,Glossy,ALOX/PVDC-PET/LLDPE,3.55,ALOX,PVDC-PET,LLDPE,,Glossy,Clear,Glossy,No,No,No,No,No,No,No,No,No,false
+USA PPC,Opaque Glossy - no Foil,0.50 ga ALOX /0.48 PET /3.0 LLDPE,Glossy,ALOX/PET/LLDPE,3.49,ALOX,PET,LLDPE,,Glossy,Clear,Glossy,No,No,No,No,No,No,No,No,No,false
+USA PPC,Opaque Matte - 3mil PE no barrier,0.80 ga Matte OPP/3.0 mil LLDPE,Matte (Film),Matte OPP/LLDPE,3.01,Matte OPP,LLDPE,,,Matte,Clear,Matte,No,No,No,No,No,No,No,No,No,false
+USA PPC,Opaque Matte - Matte Film 3mil PE,80g Matte OPP/48g MET PET/3mil PE,Opaque Matte (Film),Matte OPP/MET PET/PE,4.28,Matte OPP,MET PET,PE,,Matte,Opaque,None,Yes,No,No,Yes,No,No,No,No,No,false
+USA PPC,Opaque Matte - Matte Film 4mil PE,80g Matte OPP/48g MET PET/4mil PE,Opaque Matte (Film),Matte OPP/MET PET/PE,5.28,Matte OPP,MET PET,PE,,Matte,Opaque,None,Yes,No,No,Yes,No,No,No,No,No,false
+USA PPC,Opaque Matte - Matte Lacquer 3mil PE,48g PET/48g MET PET/3mil PE + Matte Lacquer,Opaque Matte (Varnish),PET/MET PET/PE + Matte Varnish,3.96,PET,MET PET,PE,,Matte,Opaque,None,Yes,No,Yes,Yes,No,No,No,No,No,false
+USA PPC,Opaque Matte - Matte Varnish 4mil PE,48g PET/48g MET PET/4mil PE + Matte Lacquer Flood,Opaque Matte (Varnish),PET/MET PET/PE + Matte Varnish,4.96,PET,MET PET,PE,,Matte,Opaque,None,Yes,No,Yes,Yes,No,No,No,No,No,false
+USA PPC,Opaque Matte - Velvet Soft Touch - 3mil PE,Soft Touch Matte Coating/.48 PET/.48 MET PET/3 mil LLDPE,Opaque Soft Touch,Soft Touch PET/PET/MET PET/LLDPE,3.96,Soft Touch PET,PET,MET PET,LLDPE,Soft Touch,Opaque,None,Yes,No,No,Yes,No,No,Yes,No,No,false
+USA PPC,Opaque Matte with Spot UV 3mil PE,PET/MET PET/3 mil PE + Registered Matte Lacquer,Opaque Matte with Spot UV,PET/MET PET/PE + Spot UV + Matte Varnish,,PET,MET PET,PE,,Matte,Opaque,None,Yes,No,Yes,Yes,No,No,No,Yes,No,false
+USA PPC,Opaque Matte with Spot UV 4mil PE,PET/MET PET/4 mil PE + Registered Matte Lacquer,Opaque Matte with Spot UV,PET/MET PET/PE + Spot UV + Matte Varnish,4.00,PET,MET PET,PE,,Matte,Opaque,None,Yes,No,Yes,Yes,No,No,No,Yes,No,false
+USA PPC,Recyclable - Glossy,1.0 PE CAP SHEET/3 mil LLDPE,Recyclable PE Glossy,PE/LLDPE,4.00,PE,LLDPE,,,Glossy,Clear,Glossy,No,No,No,No,No,PE,No,No,No,false
+USA PPC,Recyclable EVOH - Glossy,1.0 PE / 3.0 LLDPE EVOH,Recyclable PE Glossy,PE/EVOH-LLDPE,4.00,PE,EVOH-LLDPE,,,Glossy,Clear,Glossy,No,No,No,No,No,PE,No,No,No,false
+USA PPC,Recyclable PCR - Glossy,0.48 PET / 3.0 LLDPE (PCR),Recyclable PCR Glossy,PET/PCR-LLDPE,3.48,PET,PCR-LLDPE,,,Glossy,Clear,Glossy,No,No,No,No,No,PCR,No,No,No,false
+Vancouver,Clear Glossy,0.5M ALOX PET (Clear) / 4 mil PE,Glossy,ALOX/PE,4.01,ALOX,PE,,,Glossy,Clear,Glossy,No,No,No,No,No,No,No,No,No,false
+Vancouver,Clear Glossy with Spot UV,0.5M ALOX PET (Clear) / 4 mil PE + Registered Matte,Glossy with Spot UV,ALOX/PE + Spot UV + Matte Varnish,4.01,ALOX,PE,,,Glossy,Clear,Glossy,No,No,Yes,No,No,No,No,Yes,No,false
+Vancouver,Opaque Glossy,48g PET/48g MET PET/4mil PE,Opaque Glossy,PET/MET PET/PE,4.96,PET,MET PET,PE,,Glossy,Opaque,None,Yes,No,No,Yes,No,No,No,No,No,false
+Vancouver,Opaque Glossy -  3mil PE,48g PET/48g MET PET/3mil PE,Opaque Glossy,PET/MET PET/PE,3.96,PET,MET PET,PE,,Glossy,Opaque,None,Yes,No,No,Yes,No,No,No,No,No,false
+Vancouver,Opaque Matte - Matte Flood,48g PET/48g MET PET/4mil PE + Matte Flood,Opaque Matte (Varnish),PET/MET PET/PE + Matte Varnish,4.96,PET,MET PET,PE,,Matte,Opaque,None,Yes,No,Yes,Yes,No,No,No,No,No,false
+Vancouver,Opaque Matte - Matte Flood - 3mil PE,48g PET/48g MET PET/3mil PE + Matte Flood,Opaque Matte (Varnish),PET/MET PET/PE + Matte Varnish,3.96,PET,MET PET,PE,,Matte,Opaque,None,Yes,No,Yes,Yes,No,No,No,No,No,false
+Vancouver,Opaque Matte - Matte OPP,75g Matte OPP/48g MET PET/4mil PE,Opaque Matte (Film),Matte OPP/MET PET/PE,5.23,Matte OPP,MET PET,PE,,Matte,Opaque,None,Yes,No,No,Yes,No,No,No,No,No,false
+Vancouver,Opaque Matte - Matte OPP - 3mil PE,75g Matte OPP/48g MET PET/3mil PE,Opaque Matte (Film),Matte OPP/MET PET/PE,4.23,Matte OPP,MET PET,PE,,Matte,Opaque,None,Yes,No,No,Yes,No,No,No,No,No,false
+Vancouver,Opaque Matte - Matte PET - 3mil,48g Matte PET/48g MET PET/3mil PE,Opaque Matte (Film),Matte PET/MET PET/PE,3.96,Matte PET,MET PET,PE,,Matte,Opaque,None,Yes,No,No,Yes,No,No,No,No,No,false
+Vancouver,Opaque Matte - Velvet Soft Touch,56g Soft Touch Matte/48g MET PET/4mil PE,Opaque Soft Touch,Soft Touch PET/MET PET/PE,4.56,Soft Touch PET,MET PET,PE,,Soft Touch,Opaque,None,Yes,No,No,Yes,No,No,Yes,No,No,false
+Vancouver,Opaque Matte - Velvet Soft Touch - 3mil PE,56g Soft Touch Matte/48g MET PET/3mil PE,Opaque Soft Touch,Soft Touch PET/MET PET/PE,3.56,Soft Touch PET,MET PET,PE,,Soft Touch,Opaque,None,Yes,No,No,Yes,No,No,Yes,No,No,false
+Vancouver,Opaque Matte with Spot UV - Registered 3mil PE,48g PET/48g MET PET/3mil PE + Registered Matte,Opaque Matte (Varnish),PET/MET PET/PE + Matte Varnish,3.96,PET,MET PET,PE,,Matte,Opaque,None,Yes,No,Yes,Yes,No,No,No,No,No,false
