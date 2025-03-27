@@ -1,6 +1,7 @@
 from fastapi import FastAPI
 from pydantic import BaseModel
 import pandas as pd
+import numpy as np
 
 app = FastAPI()
 
@@ -111,6 +112,10 @@ def query_materials(input_data: QueryInput):
 
     # ✅ Sort materials by count of occurrences (from most to least found)
     sorted_materials = filtered_materials.sort_values(by="count", ascending=False)
+
+    # ✅ Handle invalid values (NaN, Inf, -Inf) to avoid JSON conversion issues
+    sorted_materials.replace([np.inf, -np.inf], 0, inplace=True)
+    sorted_materials.fillna(0, inplace=True)
 
     # ✅ Debug: Print result shape after sorting
     print(f"✅ Result shape after sorting: {sorted_materials.shape}")
