@@ -90,6 +90,10 @@ def query_materials(input_data: QueryInput):
             .value_counts()
             .to_dict()
         )
+
+        # ✅ Debug: Print material counts for verification
+        print(f"✅ Material counts from QuoteDetails.csv: {material_counts}")
+
     else:
         print("❗️ Warning: 'material_id' column not found in one or both CSVs.")
         material_counts = {}
@@ -107,8 +111,8 @@ def query_materials(input_data: QueryInput):
         print("❗️ Warning: 'material_id' column not found in materials_df.")
         filtered_materials["count"] = 0
 
-    # ✅ Debug: Print mapped counts
-    print(f"✅ Mapped counts: {filtered_materials[['material_id', 'count']].head()}")
+    # ✅ Debug: Print mapped counts to check before sorting
+    print(f"✅ Mapped counts for filtered materials:\n{filtered_materials[['material_id', 'count']].sort_values(by='count', ascending=False).head()}")
 
     # ✅ Sort materials by count of occurrences (from most to least found)
     sorted_materials = filtered_materials.sort_values(by="count", ascending=False)
@@ -125,6 +129,10 @@ def query_materials(input_data: QueryInput):
 
     # ✅ Debug: Print final result to check before returning
     print(f"✅ Final result: {result}")
+
+    # ✅ Additional Debug: Check for invalid data types
+    print(f"🔎 Data types after final cleaning:\n{sorted_materials.dtypes}")
+    print(f"🔎 Any remaining NaN values? {sorted_materials.isnull().sum().sum()}")
 
     return result
 
