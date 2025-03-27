@@ -116,7 +116,7 @@ def query_materials(input_data: QueryInput):
 
     # ✅ Explicitly convert 'count' to integer before sorting
     filtered_materials["count"] = filtered_materials["count"].astype(int)
-
+    
     # ✅ Sort materials by count of occurrences (from most to least found)
     sorted_materials = filtered_materials.sort_values(by="count", ascending=False)
 
@@ -141,4 +141,6 @@ def query_materials(input_data: QueryInput):
 
 
 # Run FastAPI app with uvicorn explicitly on port 10000
-if __name
+if __name__ == "__main__":
+    import uvicorn
+    uvicorn.run(app, host="0.0.0.0", port=10000)
