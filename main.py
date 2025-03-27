@@ -10,7 +10,7 @@ materials_df = pd.read_csv("Materials.csv")
 quotes_df = pd.read_csv("QuoteDetails.csv")
 
 
-# ✅ Standardize column names and strip whitespace
+# ✅ Standardize column names to lowercase and strip spaces
 materials_df.columns = materials_df.columns.str.strip().str.lower()
 quotes_df.columns = quotes_df.columns.str.strip().str.lower()
 
@@ -25,8 +25,8 @@ materials_df["opacity"] = materials_df["opacity"].str.strip().str.lower()
 materials_df["factory"] = materials_df["factory"].str.strip().str.lower()
 
 # ✅ Ensure 'material_id' is properly converted to integer
-materials_df["material_id"] = materials_df["material_id"].astype(int)
-quotes_df["material_id"] = pd.to_numeric(quotes_df["material_id"], errors="coerce").fillna(0).astype(int)
+materials_df["material_id"] = materials_df["material_id"].astype(str).str.strip()
+quotes_df["material_id"] = quotes_df["material_id"].astype(str).str.strip()
 
 
 # ✅ Debug: Print unique values to ensure no mismatches
