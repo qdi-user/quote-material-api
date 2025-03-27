@@ -1,4 +1,4 @@
 fastapi
 pandas
 uvicorn
-requests==2.28.1
+requests
