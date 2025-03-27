@@ -13,16 +13,19 @@ quotes_df = pd.read_csv("QuoteDetails.csv")
 materials_df.columns = materials_df.columns.str.strip().str.lower()
 quotes_df.columns = quotes_df.columns.str.strip().str.lower()
 
+# ✅ Drop rows with blank or NaN values in 'material_id' before counting
+quotes_df = quotes_df.dropna(subset=["material_id"])
+
 # ✅ Clean and standardize the values in key columns
 materials_df["recyclable"] = materials_df["recyclable"].str.strip().str.lower()
 materials_df["finish"] = materials_df["finish"].str.strip().str.lower()
 materials_df["opacity"] = materials_df["opacity"].str.strip().str.lower()
 materials_df["factory"] = materials_df["factory"].str.strip().str.lower()
 
-# ✅ Ensure 'material_id' is treated as a string to avoid mismatches
-materials_df["material_id"] = pd.to_numeric(materials_df["material_id"].astype(str).str.strip(), errors='coerce').fillna(0).astype(int)
-quotes_df["material_id"] = quotes_df["material_id"].astype(str).str.strip()
-quotes_df["factory"] = quotes_df["factory"].str.strip().str.lower()
+# ✅ Ensure 'material_id' is properly converted to integer
+materials_df["material_id"] = pd.to_numeric(materials_df["material_id"].astype(str).str.strip(), errors="coerce").fillna(0).astype(int)
+quotes_df["material_id"] = pd.to_numeric(quotes_df["material_id"].astype(str).str.strip(), errors="coerce").fillna(0).astype(int)
+
 
 # ✅ Debug: Print unique values to ensure no mismatches
 print("✅ Unique values in 'recyclable':", materials_df["recyclable"].unique())
@@ -30,6 +33,9 @@ print("✅ Unique values in 'finish':", materials_df["finish"].unique())
 print("✅ Unique values in 'opacity':", materials_df["opacity"].unique())
 print("✅ Unique values in 'factory':", materials_df["factory"].unique())
 
+# ✅ Debugging to confirm cleanup
+print(f"✅ Shape of quotes_df after dropping blanks: {quotes_df.shape}")
+print(f"✅ Unique material_ids in quotes_df after cleanup: {quotes_df['material_id'].unique()}")
 
 # Define input model
 class QueryInput(BaseModel):
