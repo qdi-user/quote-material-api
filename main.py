@@ -83,22 +83,22 @@ def query_materials(input_data: QueryInput):
     # ✅ Debug: Print shape of quotes_filtered
     print(f"✅ Quotes filtered shape: {quotes_filtered.shape}")
 
-    # Count material popularity
+    # Count material occurrences
     if "material" in quotes_filtered.columns:
         material_counts = quotes_filtered["material"].value_counts().to_dict()
     else:
         print("❗️ Warning: 'material' column not found in quotes_df.")
         material_counts = {}
 
-    # Add popularity to filtered materials
+    # Add count of occurrences to filtered materials
     if "material" in filtered_materials.columns:
-        filtered_materials["popularity"] = filtered_materials["material"].map(material_counts).fillna(0)
+        filtered_materials["count"] = filtered_materials["material"].map(material_counts).fillna(0)
     else:
         print("❗️ Warning: 'material' column not found in materials_df.")
-        filtered_materials["popularity"] = 0
+        filtered_materials["count"] = 0
 
-    # Sort materials by popularity
-    sorted_materials = filtered_materials.sort_values(by="popularity", ascending=False)
+    # Sort materials by count (from most to least found)
+    sorted_materials = filtered_materials.sort_values(by="count", ascending=False)
 
     # ✅ Replace NaN/Infinity values with 0 to avoid JSON conversion issues
     sorted_materials = sorted_materials.replace([float('inf'), float('-inf')], 0)
@@ -107,8 +107,8 @@ def query_materials(input_data: QueryInput):
     # ✅ Debug: Print result shape
     print(f"✅ Result shape after sorting: {sorted_materials.shape}")
 
-    # Drop 'popularity' column before returning the final result
-    result = sorted_materials.drop(columns=["popularity"], errors="ignore").to_dict(orient="records")
+    # Drop 'count' column before returning the final result
+    result = sorted_materials.drop(columns=["count"], errors="ignore").to_dict(orient="records")
 
     # ✅ Debug: Print final result to check before returning
     print(f"✅ Final result: {result}")
