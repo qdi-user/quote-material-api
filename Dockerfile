@@ -14,6 +14,7 @@ RUN pip install --no-cache-dir -r requirements.txt
 COPY main.py .
 COPY Materials.csv .
 COPY QuoteDetails.csv .
+COPY material_service.py .
 
 # Expose port 10000
 EXPOSE 10000
