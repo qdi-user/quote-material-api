@@ -18,7 +18,7 @@ materials_df["finish"] = materials_df["finish"].str.strip().str.lower()
 materials_df["opacity"] = materials_df["opacity"].str.strip().str.lower()
 materials_df["factory"] = materials_df["factory"].str.strip().str.lower()
 
-quotes_df["material"] = quotes_df["material"].str.strip().str.lower()
+quotes_df["material_id"] = quotes_df["material_id"].astype(str).str.strip()
 quotes_df["factory"] = quotes_df["factory"].str.strip().str.lower()
 
 # ✅ Debug: Print unique values to ensure no mismatches
@@ -73,31 +73,31 @@ def query_materials(input_data: QueryInput):
     if factory:
         if "factory" in filtered_materials.columns:
             filtered_materials = filtered_materials[filtered_materials["factory"] == factory]
-            quotes_filtered = quotes_df[quotes_df["factory"] == factory]
         else:
-            print("❗️ Warning: 'factory' column not found in materials_df or quotes_df.")
-            quotes_filtered = quotes_df.copy()
-    else:
-        quotes_filtered = quotes_df.copy()
+            print("❗️ Warning: 'factory' column not found in materials_df.")
+    
+    # ✅ Debug: Print shape after factory filtering
+    print(f"✅ Filtered materials_df shape (after factory filter): {filtered_materials.shape}")
 
-    # ✅ Debug: Print shape of quotes_filtered
-    print(f"✅ Quotes filtered shape: {quotes_filtered.shape}")
+    # Check if 'material_id' exists in both dataframes
+    if "material_id" in filtered_materials.columns and "material_id" in quotes_df.columns:
+        # Get list of relevant Material_IDs
+        material_ids = filtered_materials["material_id"].astype(str).tolist()
 
-    # Count material occurrences
-    if "material" in quotes_filtered.columns:
-        material_counts = quotes_filtered["material"].value_counts().to_dict()
+        # ✅ Count occurrences of each Material_ID in QuoteDetails.csv
+        material_counts = quotes_df[quotes_df["material_id"].isin(material_ids)]["material_id"].value_counts().to_dict()
     else:
-        print("❗️ Warning: 'material' column not found in quotes_df.")
+        print("❗️ Warning: 'material_id' column not found in one or both CSVs.")
         material_counts = {}
 
     # Add count of occurrences to filtered materials
-    if "material" in filtered_materials.columns:
-        filtered_materials["count"] = filtered_materials["material"].map(material_counts).fillna(0)
+    if "material_id" in filtered_materials.columns:
+        filtered_materials["count"] = filtered_materials["material_id"].astype(str).map(material_counts).fillna(0)
     else:
-        print("❗️ Warning: 'material' column not found in materials_df.")
+        print("❗️ Warning: 'material_id' column not found in materials_df.")
         filtered_materials["count"] = 0
 
-    # Sort materials by count (from most to least found)
+    # ✅ Sort materials by count of occurrences (from most to least found)
     sorted_materials = filtered_materials.sort_values(by="count", ascending=False)
 
     # ✅ Replace NaN/Infinity values with 0 to avoid JSON conversion issues

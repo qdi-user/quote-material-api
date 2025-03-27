@@ -18,6 +18,9 @@ COPY QuoteDetails.csv .
 # Expose port 10000
 EXPOSE 10000
 
+# Set default environment variable for port
+ENV PORT=10000
+
 # Start the FastAPI application with uvicorn
 CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "10000"]
 
