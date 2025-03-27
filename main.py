@@ -20,7 +20,7 @@ materials_df["opacity"] = materials_df["opacity"].str.strip().str.lower()
 materials_df["factory"] = materials_df["factory"].str.strip().str.lower()
 
 # ✅ Ensure 'material_id' is treated as a string to avoid mismatches
-materials_df["material_id"] = materials_df["material_id"].astype(str).str.strip()
+materials_df["material_id"] = pd.to_numeric(materials_df["material_id"].astype(str).str.strip(), errors='coerce').fillna(0).astype(int)
 quotes_df["material_id"] = quotes_df["material_id"].astype(str).str.strip()
 quotes_df["factory"] = quotes_df["factory"].str.strip().str.lower()
 
@@ -116,7 +116,7 @@ def query_materials(input_data: QueryInput):
 
     # ✅ Explicitly convert 'count' to integer before sorting
     filtered_materials["count"] = filtered_materials["count"].astype(int)
-    
+
     # ✅ Sort materials by count of occurrences (from most to least found)
     sorted_materials = filtered_materials.sort_values(by="count", ascending=False)
 
