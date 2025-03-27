@@ -8,9 +8,25 @@ app = FastAPI()
 materials_df = pd.read_csv("Materials.csv")
 quotes_df = pd.read_csv("QuoteDetails.csv")
 
-# ✅ Debug: Print column names to logs
-print("✅ Materials.csv Columns:", list(materials_df.columns))
-print("✅ QuoteDetails.csv Columns:", list(quotes_df.columns))
+# ✅ Standardize column names and strip whitespace
+materials_df.columns = materials_df.columns.str.strip().str.lower()
+quotes_df.columns = quotes_df.columns.str.strip().str.lower()
+
+# ✅ Clean and standardize the values in key columns
+materials_df["recyclable"] = materials_df["recyclable"].str.strip().str.lower()
+materials_df["finish"] = materials_df["finish"].str.strip().str.lower()
+materials_df["opacity"] = materials_df["opacity"].str.strip().str.lower()
+materials_df["factory"] = materials_df["factory"].str.strip().str.lower()
+
+quotes_df["material"] = quotes_df["material"].str.strip().str.lower()
+quotes_df["factory"] = quotes_df["factory"].str.strip().str.lower()
+
+# ✅ Debug: Print unique values to ensure no mismatches
+print("✅ Unique values in 'recyclable':", materials_df["recyclable"].unique())
+print("✅ Unique values in 'finish':", materials_df["finish"].unique())
+print("✅ Unique values in 'opacity':", materials_df["opacity"].unique())
+print("✅ Unique values in 'factory':", materials_df["factory"].unique())
+
 
 # Define input model
 class QueryInput(BaseModel):
@@ -31,26 +47,35 @@ def query_materials(input_data: QueryInput):
     # ✅ Debug: Print received input data
     print(f"✅ Received input data: {input_data.dict()}")
 
-    # ✅ Debug: Print shape of materials_df before filtering
+    # ✅ Convert input data to lowercase and strip spaces to avoid mismatches
+    recyclable = input_data.Recyclable.strip().lower()
+    finish = input_data.Finish.strip().lower()
+    opacity = input_data.Opacity.strip().lower()
+    factory = input_data.Factory.strip().lower() if input_data.Factory else None
+
+    # ✅ Debug: Print received data after sanitizing
+    print(f"✅ Sanitized Input: Recyclable={recyclable}, Finish={finish}, Opacity={opacity}, Factory={factory}")
+
+    # ✅ Debug: Print initial shape of materials_df
     print(f"✅ Initial materials_df shape: {materials_df.shape}")
 
-    # Filter materials based on criteria
+    # Filter materials based on input criteria
     filtered_materials = materials_df[
-        (materials_df["Recyclable"] == input_data.Recyclable) &
-        (materials_df["Finish"] == input_data.Finish) &
-        (materials_df["Opacity"] == input_data.Opacity)
+        (materials_df["recyclable"] == recyclable) &
+        (materials_df["finish"] == finish) &
+        (materials_df["opacity"] == opacity)
     ]
 
-    # ✅ Debug: Print shape of filtered materials
-    print(f"✅ Filtered materials_df shape: {filtered_materials.shape}")
+    # ✅ Debug: Print shape after basic filters
+    print(f"✅ Filtered materials_df shape (before factory): {filtered_materials.shape}")
 
     # Filter by factory if provided
-    if input_data.Factory:
-        if "Factory" in filtered_materials.columns:
-            filtered_materials = filtered_materials[filtered_materials["Factory"] == input_data.Factory]
-            quotes_filtered = quotes_df[quotes_df["Factory"] == input_data.Factory]
+    if factory:
+        if "factory" in filtered_materials.columns:
+            filtered_materials = filtered_materials[filtered_materials["factory"] == factory]
+            quotes_filtered = quotes_df[quotes_df["factory"] == factory]
         else:
-            print("❗️ Warning: 'Factory' column not found in materials_df or quotes_df.")
+            print("❗️ Warning: 'factory' column not found in materials_df or quotes_df.")
             quotes_filtered = quotes_df.copy()
     else:
         quotes_filtered = quotes_df.copy()
@@ -59,27 +84,27 @@ def query_materials(input_data: QueryInput):
     print(f"✅ Quotes filtered shape: {quotes_filtered.shape}")
 
     # Count material popularity
-    if "Material" in quotes_filtered.columns:
-        material_counts = quotes_filtered["Material"].value_counts().to_dict()
+    if "material" in quotes_filtered.columns:
+        material_counts = quotes_filtered["material"].value_counts().to_dict()
     else:
-        print("❗️ Warning: 'Material' column not found in quotes_df.")
+        print("❗️ Warning: 'material' column not found in quotes_df.")
         material_counts = {}
 
     # Add popularity to filtered materials
-    if "Material" in filtered_materials.columns:
-        filtered_materials["Popularity"] = filtered_materials["Material"].map(material_counts).fillna(0)
+    if "material" in filtered_materials.columns:
+        filtered_materials["popularity"] = filtered_materials["material"].map(material_counts).fillna(0)
     else:
-        print("❗️ Warning: 'Material' column not found in materials_df.")
-        filtered_materials["Popularity"] = 0
+        print("❗️ Warning: 'material' column not found in materials_df.")
+        filtered_materials["popularity"] = 0
 
     # Sort materials by popularity
-    sorted_materials = filtered_materials.sort_values(by="Popularity", ascending=False)
+    sorted_materials = filtered_materials.sort_values(by="popularity", ascending=False)
 
     # ✅ Debug: Print result shape
     print(f"✅ Result shape after sorting: {sorted_materials.shape}")
 
-    # Drop 'Popularity' column before returning
-    result = sorted_materials.drop(columns=["Popularity"], errors="ignore").to_dict(orient="records")
+    # Drop 'popularity' column before returning the final result
+    result = sorted_materials.drop(columns=["popularity"], errors="ignore").to_dict(orient="records")
 
     # ✅ Debug: Print final result
     print(f"✅ Final result: {result}")
