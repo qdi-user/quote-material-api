@@ -2,6 +2,7 @@ from fastapi import FastAPI
 from pydantic import BaseModel
 import pandas as pd
 import numpy as np
+from material_service import fetch_material_details  # Import the new function
 
 app = FastAPI()
 
@@ -140,6 +141,22 @@ def query_materials(input_data: QueryInput):
     print(f"🔎 Any remaining NaN values? {sorted_materials.isnull().sum().sum()}")
 
     return result
+
+# --- New Endpoint: Fetch Material Details ---
+class MaterialQuery(BaseModel):
+    recyclable: bool
+    finish: str
+    opacity: str
+
+@app.post("/get-material-details/")
+def get_material_details(query: MaterialQuery):
+    """
+    Fetch material details using external API.
+    """
+    result = fetch_material_details(
+        query.recyclable, query.finish, query.opacity
+    )
+    return {"result": result}
 
 # Run FastAPI app with uvicorn explicitly on port 10000
 if __name__ == "__main__":
