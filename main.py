@@ -100,13 +100,17 @@ def query_materials(input_data: QueryInput):
     # Sort materials by popularity
     sorted_materials = filtered_materials.sort_values(by="popularity", ascending=False)
 
+    # ✅ Replace NaN/Infinity values with 0 to avoid JSON conversion issues
+    sorted_materials = sorted_materials.replace([float('inf'), float('-inf')], 0)
+    sorted_materials = sorted_materials.fillna(0)
+
     # ✅ Debug: Print result shape
     print(f"✅ Result shape after sorting: {sorted_materials.shape}")
 
     # Drop 'popularity' column before returning the final result
     result = sorted_materials.drop(columns=["popularity"], errors="ignore").to_dict(orient="records")
 
-    # ✅ Debug: Print final result
+    # ✅ Debug: Print final result to check before returning
     print(f"✅ Final result: {result}")
 
     return result
