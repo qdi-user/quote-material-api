@@ -1,5 +1,5 @@
 fastapi
-pandas
 uvicorn
+pandas
+numpy
 requests
-# Force rebuild
