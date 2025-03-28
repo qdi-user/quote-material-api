@@ -39,7 +39,7 @@ print(f"✅ Shape of materials_df after dropping blanks: {materials_df.shape}")
 print(f"✅ Shape of quotes_df after dropping blanks: {quotes_df.shape}")
 print(f"✅ Unique material_ids in materials_df: {materials_df['material_id'].unique()}")
 print(f"✅ Unique material_ids in quotes_df: {quotes_df['material_id'].unique()}")
-
+# force update
 # Define input model
 class QueryInput(BaseModel):
     Recyclable: str
