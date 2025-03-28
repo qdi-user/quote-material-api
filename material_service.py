@@ -5,17 +5,19 @@ def fetch_material_details(recyclable, finish, opacity):
     Fetches material details based on the provided parameters.
     """
     url = "https://quote-material-api.onrender.com/query-materials"
-    params = {
-        'recyclable': recyclable.lower(),  # Ensure lowercase for consistency
-        'finish': finish.lower(),
-        'opacity': opacity.lower()
+    
+    # Convert to JSON body instead of params
+    payload = {
+        'Recyclable': recyclable.lower(),  # Use capitalized key to match the input model
+        'Finish': finish.lower(),
+        'Opacity': opacity.lower()
     }
 
     try:
-        response = requests.post(url, params=params)
+        response = requests.post(url, json=payload)
         
         if response.status_code == 200:
-            result_data = response.json().get('Result')
+            result_data = response.json()  # Directly access the returned list
             if result_data and len(result_data) > 0:
                 return result_data[0]
             else:
