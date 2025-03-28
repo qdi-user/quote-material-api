@@ -119,15 +119,14 @@ def query_materials(input_data: QueryInput):
 @app.post("/get-material-details/")
 def get_material_details(query: MaterialQuery):
     """
-    Fetch material details using external API or internal query
+    Fetch material details using external API.
+    Returns all matching materials.
     """
-    logger.info(f"Received material details query: {query.dict()}")
-    
+    logging.info(f"Received input: {query.dict()}")
     result = fetch_material_details(
         query.recyclable, query.finish, query.opacity
     )
-    
-    logger.info(f"Material details response: {result}")
+    logging.info(f"API Response: {result}")
     return {"result": result}
 
 # Run FastAPI app with uvicorn explicitly on port 10000
