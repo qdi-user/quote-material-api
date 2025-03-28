@@ -144,7 +144,7 @@ def query_materials(input_data: QueryInput):
 
 # --- New Endpoint: Fetch Material Details ---
 class MaterialQuery(BaseModel):
-    recyclable: bool
+    recyclable: str
     finish: str
     opacity: str
 

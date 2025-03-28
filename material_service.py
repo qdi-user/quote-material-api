@@ -6,9 +6,9 @@ def fetch_material_details(recyclable, finish, opacity):
     """
     url = "https://quote-material-api.onrender.com/query-materials"
     params = {
-        'recyclable': recyclable,
-        'finish': finish,
-        'opacity': opacity
+        'recyclable': recyclable.lower(),  # Ensure lowercase for consistency
+        'finish': finish.lower(),
+        'opacity': opacity.lower()
     }
 
     try:
