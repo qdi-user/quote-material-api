@@ -357,6 +357,11 @@ def analyze_and_predict(model, numeric_features, categorical_features, input_dat
             if value is not None:
                 pred_input[key] = value
         
+        # Make sure all required columns exist in pred_df
+        for feature in numeric_features + categorical_features:
+            if feature not in pred_df.columns:
+                pred_df[feature] = None  # or some default value
+                
         # Filter dataset based on provided constraints
         filtered_df = data.copy()
         
