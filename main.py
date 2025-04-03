@@ -282,20 +282,29 @@ def calculate_price_factors(model, numeric_features, categorical_features, input
         
         # Get feature names (considering one-hot encoding)
         preprocessor = model.named_steps['preprocessor']
-        feature_names = []
         
-        # Extract feature names from the preprocessor
-        for name, transformer, features in preprocessor.transformers_:
-            if name == 'num':
-                feature_names.extend(features)
-            elif name == 'cat':
-                # Get one-hot encoded feature names
-                for feature in features:
-                    if feature in input_data and input_data[feature] is not None:
-                        feature_names.append(f"{feature}={input_data[feature]}")
+        # Convert input dictionary to DataFrame for consistent handling
+        input_df = pd.DataFrame([input_data])
+        
+        # Get transformed feature names
+        transformed_features = []
+        
+        # Extract feature names based on what's available in the input
+        for feature in numeric_features:
+            if feature in input_data:
+                transformed_features.append(feature)
+                
+        # For categorical features, we need to handle one-hot encoding
+        for feature in categorical_features:
+            if feature in input_data:
+                value = input_data[feature]
+                transformed_features.append(f"{feature}={value}")
+        
+        # Limit feature importances to the number of transformed features
+        limited_importances = feature_importances[:len(transformed_features)] if len(transformed_features) <= len(feature_importances) else feature_importances
         
         # Create a list of (feature name, importance) tuples
-        importance_pairs = list(zip(feature_names, feature_importances[:len(feature_names)]))
+        importance_pairs = list(zip(transformed_features, limited_importances))
         
         # Sort by importance
         importance_pairs.sort(key=lambda x: x[1], reverse=True)
@@ -314,8 +323,11 @@ def calculate_price_factors(model, numeric_features, categorical_features, input
                 explanation = f"{feature} has significant impact on price"
                 impact = f"{importance * 100:.1f}% influence on price"
             else:
-                feature_name, value = feature.split('=', 1)  # Use maxsplit=1 to handle values with '='
-                explanation = f"{feature_name}={value} affects pricing"
+                try:
+                    feature_name, value = feature.split('=', 1)  # Use maxsplit=1 to handle values with '='
+                    explanation = f"{feature_name}={value} affects pricing"
+                except ValueError:
+                    explanation = f"{feature} affects pricing"
                 impact = f"{importance * 100:.1f}% influence on price"
             
             price_factors.append({
@@ -361,8 +373,13 @@ def analyze_and_predict(model, numeric_features, categorical_features, input_dat
         
         # If no similar records found, make a model prediction
         if filtered_df.empty or 'price' not in filtered_df.columns:
+            # Convert the input dictionary to a DataFrame for prediction
+            # This fixes the "Expected 2D array, got 1D array instead" error
+            pred_df = pd.DataFrame([pred_input])
+            
             # Make prediction based on input
-            prediction = model.predict([pred_input])[0]
+            prediction = model.predict(pred_df)[0]
+            
             # Use model's feature importances to calculate price range
             # For simplicity, we'll use ±15% as the price range
             min_price = max(0, prediction * 0.85)
