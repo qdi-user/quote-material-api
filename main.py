@@ -356,7 +356,10 @@ def analyze_and_predict(model, numeric_features, categorical_features, input_dat
         for key, value in input_data.dict().items():
             if value is not None:
                 pred_input[key] = value
-        
+
+        # Create a DataFrame from input
+        pred_df = pd.DataFrame([pred_input])
+
         # Make sure all required columns exist in pred_df
         for feature in numeric_features + categorical_features:
             if feature not in pred_df.columns:
@@ -379,8 +382,6 @@ def analyze_and_predict(model, numeric_features, categorical_features, input_dat
         # If no similar records found, make a model prediction
         if filtered_df.empty or 'price' not in filtered_df.columns:
             # Convert the input dictionary to a DataFrame for prediction
-            # This fixes the "Expected 2D array, got 1D array instead" error
-            pred_df = pd.DataFrame([pred_input])
             
             # Make prediction based on input
             prediction = model.predict(pred_df)[0]
