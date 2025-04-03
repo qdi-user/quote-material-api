@@ -1,10 +1,16 @@
-
-from fastapi import FastAPI, HTTPException, Body
+from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel
-from fastapi.encoders import jsonable_encoder
-from typing import List, Dict, Any
 import pandas as pd
+import numpy as np
 import logging
+from typing import Optional, List, Dict, Union
+from sklearn.ensemble import RandomForestRegressor
+from sklearn.preprocessing import OneHotEncoder, StandardScaler
+from sklearn.compose import ColumnTransformer
+from sklearn.pipeline import Pipeline
+import joblib
+import os
+from material_service import fetch_material_details
 
 # Configure logging
 logging.basicConfig(level=logging.INFO)
@@ -12,141 +18,368 @@ logger = logging.getLogger(__name__)
 
 app = FastAPI()
 
-MAX_RESULTS = 100
-SUPPORTED_OPS = {"gt", "lt", "gte", "lte", "eq", "ne"}
+# Load CSV data
+materials_df = pd.read_csv("Materials.csv")
+quotes_df = pd.read_csv("QuoteDetails.csv")
 
-class PrintMethodQuery(BaseModel):
-    print_method: str
+# Standardize column names to lowercase and strip spaces
+materials_df.columns = materials_df.columns.str.strip().str.lower()
+quotes_df.columns = quotes_df.columns.str.strip().str.lower()
 
-class SizeData(BaseModel):
-    width: float
-    height: float
-    count: int
-    percentage: float
+# Convert material_id to integers, replacing non-numeric values with NaN
+materials_df["material_id"] = pd.to_numeric(materials_df["material_id"], errors='coerce')
+quotes_df["material_id"] = pd.to_numeric(quotes_df["material_id"], errors='coerce')
 
-class PrintMethodSizeResponse(BaseModel):
-    print_method: str
-    sizes: List[SizeData]
-    total_count: int
+# Drop rows with NaN or zero material_id in both dataframes
+materials_df = materials_df[materials_df["material_id"].notna() & (materials_df["material_id"] != 0)]
+quotes_df = quotes_df[quotes_df["material_id"].notna() & (quotes_df["material_id"] != 0)]
 
-def load_quote_data():
-    try:
-        df = pd.read_csv("QuoteDetails.csv")
-        df.columns = df.columns.str.strip().str.lower()
-        return df
-    except Exception as e:
-        logger.error(f"Failed to load data: {e}")
-        raise
+# Clean and standardize the values in other columns
+materials_df["recyclable"] = materials_df["recyclable"].str.strip().str.lower()
+materials_df["finish"] = materials_df["finish"].str.strip().str.lower()
+materials_df["opacity"] = materials_df["opacity"].str.strip().str.lower()
+materials_df["factory"] = materials_df["factory"].str.strip().str.lower()
+
+# Define input models
+class QueryInput(BaseModel):
+    Recyclable: str
+    Finish: str
+    Opacity: str
+    Factory: str = None
+
+class MaterialQuery(BaseModel):
+    recyclable: str
+    finish: str
+    opacity: str
 
 @app.get("/")
-def health_check():
-    return {"status": "OK"}
+def read_root():
+    """Root endpoint with welcome message"""
+    return {"message": "Welcome to the Quote Material API!"}
 
-@app.post("/print_method", response_model=PrintMethodSizeResponse)
-def get_sizes_by_print_method(query: PrintMethodQuery):
-    try:
-        df = load_quote_data()
-        if 'print method' not in df.columns:
-            raise HTTPException(status_code=400, detail="Missing 'print method' column")
+@app.post("/query-materials")
+def query_materials(input_data: QueryInput):
+    """
+    Query materials based on input criteria and sort by popularity
+    """
+    # Convert input data to lowercase and strip spaces to avoid mismatches
+    recyclable = input_data.Recyclable.strip().lower()
+    finish = input_data.Finish.strip().lower()
+    opacity = input_data.Opacity.strip().lower()
+    factory = input_data.Factory.strip().lower() if input_data.Factory else None
 
-        df_filtered = df[df['print method'].str.lower() == query.print_method.lower()]
+    logger.info(f"Sanitized Input: Recyclable={recyclable}, Finish={finish}, Opacity={opacity}, Factory={factory}")
 
-        if df_filtered.empty:
-            return {
-                "print_method": query.print_method,
-                "sizes": [],
-                "total_count": 0
-            }
+    # Filter materials based on input criteria
+    filtered_materials = materials_df[
+        (materials_df["recyclable"] == recyclable) &
+        (materials_df["finish"] == finish) &
+        (materials_df["opacity"] == opacity)
+    ]
 
-        grouped = df_filtered.groupby(["width", "height"]).size().reset_index(name="count")
-        total = grouped["count"].sum()
-        grouped["percentage"] = grouped["count"] / total * 100
-        grouped = grouped.sort_values(by="count", ascending=False)
+    # Filter by factory if provided
+    if factory:
+        if "factory" in filtered_materials.columns:
+            filtered_materials = filtered_materials[filtered_materials["factory"] == factory]
+        else:
+            logger.warning("'factory' column not found in materials_df.")
 
-        sizes = [
-            {
-                "width": row["width"],
-                "height": row["height"],
-                "count": row["count"],
-                "percentage": row["percentage"]
-            }
-            for _, row in grouped.iterrows()
-        ]
-
-        return {
-            "print_method": query.print_method,
-            "sizes": sizes,
-            "total_count": total
-        }
-
-    except Exception as e:
-        logger.error(f"Error processing print method query: {e}")
-        raise HTTPException(status_code=500, detail=str(e))
-
-@app.post("/query")
-def dynamic_query(filters: Dict[str, Any] = Body(...)):
-    try:
-        logger.info(f"Received filters: {filters}")
-        if not filters:
-            raise HTTPException(status_code=400, detail="At least one filter is required.")
-
-        df = load_quote_data()
-
-        for key, condition in filters.items():
-            col = key.strip().lower()
-            if col not in df.columns:
-                raise HTTPException(status_code=400, detail=f"Column '{col}' not found in data")
-
-            if isinstance(condition, dict):
-                for op, val in condition.items():
-                    if op not in SUPPORTED_OPS:
-                        raise HTTPException(status_code=400, detail=f"Unsupported operation '{op}' on '{col}'")
-                    if op == "gt":
-                        df = df[df[col] > val]
-                    elif op == "lt":
-                        df = df[df[col] < val]
-                    elif op == "gte":
-                        df = df[df[col] >= val]
-                    elif op == "lte":
-                        df = df[df[col] <= val]
-                    elif op == "ne":
-                        df = df[df[col] != val]
-                    elif op == "eq":
-                        df = df[df[col] == val]
-            else:
-                df = df[df[col] == condition]
-
-        result = (
-            df.replace({float("inf"): None, float("-inf"): None})
-            .fillna("")
-            .head(MAX_RESULTS)
-            .to_dict(orient="records")
+    # Count occurrences of materials in quotes
+    if "material_id" in filtered_materials.columns and "material_id" in quotes_df.columns:
+        material_ids = filtered_materials["material_id"].astype(int).tolist()
+        
+        material_counts = (
+            quotes_df[quotes_df["material_id"].isin(material_ids)]["material_id"]
+            .value_counts()
+            .to_dict()
         )
+    else:
+        logger.warning("'material_id' column not found in one or both CSVs.")
+        material_counts = {}
 
-        return jsonable_encoder({"count": len(result), "results": result})
+    # Map count of occurrences to the filtered materials
+    if "material_id" in filtered_materials.columns:
+        filtered_materials["count"] = (
+            filtered_materials["material_id"]
+            .astype(int)
+            .map(material_counts)
+            .fillna(0)
+            .astype(int)
+        )
+    else:
+        logger.warning("'material_id' column not found in materials_df.")
+        filtered_materials["count"] = 0
 
-    except Exception as e:
-        logger.error(f"Query error with filters {filters}: {e}")
-        raise HTTPException(status_code=500, detail=str(e))
+    # Sort materials by count of occurrences (from most to least found)
+    sorted_materials = filtered_materials.sort_values(by="count", ascending=False)
 
-@app.get("/print_methods")
-def get_print_methods():
+    # Handle invalid values to avoid JSON conversion issues
+    sorted_materials.replace([np.inf, -np.inf], 0, inplace=True)
+    sorted_materials.fillna(0, inplace=True)
+
+    # Drop 'count' column before returning the final result
+    result = sorted_materials.drop(columns=["count"], errors="ignore").to_dict(orient="records")
+
+    logger.info(f"Query results: {len(result)} materials found")
+    return result
+
+@app.post("/get-material-details/")
+def get_material_details(query: MaterialQuery):
+    """
+    Fetch material details using external API.
+    Returns all matching materials.
+    """
+    logging.info(f"Received input: {query.dict()}")
+    result = fetch_material_details(
+        query.recyclable, query.finish, query.opacity
+    )
+    logging.info(f"API Response: {result}")
+    return {"result": result}
+
+##FROM CLAUDE.AI BELOW
+# Define input model
+class PredictionInput(BaseModel):
+    width: Optional[float] = None
+    height: Optional[float] = None
+    length: Optional[float] = None
+    print_method: Optional[str] = None
+    material_id: Optional[str] = None
+    ship_via: Optional[str] = None
+    factory: Optional[str] = None
+    total_quantity: Optional[int] = None
+    options: Optional[str] = None
+
+# Define output model
+class PredictionOutput(BaseModel):
+    min_price: float
+    max_price: float
+    price_factors: List[Dict[str, Union[str, float]]]
+
+# Load the dataset from CSV
+def load_data():
+    # In production, this path would be configured properly
     try:
-        df = load_quote_data()
-        methods = df["print method"].dropna().unique().tolist()
-        return {"print_methods": sorted(methods)}
-    except Exception as e:
-        logger.error(f"Error retrieving print methods: {e}")
-        raise HTTPException(status_code=500, detail=str(e))
+        df = pd.read_csv('example-QuoteDetails.csv')
+        # Clean the data
+        # Remove $ and convert to float if price is string
+        if isinstance(df['price'].iloc[0], str):
+            df['price'] = df['price'].str.replace('$', '').astype(float)
+        
+        # Parse options to extract main features
+        df['options_list'] = df['Options'].str.split(',')
+        
+        return df
+    except FileNotFoundError:
+        # Sample data for testing when file is not found
+        print("Warning: Dataset not found. Using sample data for initialization.")
+        return pd.DataFrame({
+            'width': [8.75, 16.0, 17.5],
+            'height': [17.0, 24.0, 32.0],
+            'length': [4.75, 3.75, 5.0],
+            'print_method': ['Flexographic', 'Flexographic', 'Flexographic'],
+            'material_id': ['3598163000015277617', '3598163000015277617', '3598163000015277617'],
+            'ship_via': ['None', 'None', 'None'],
+            'factory': ['USA AP', 'USA AP', 'USA AP'],
+            'total_quantity': [35000, 36000, 45000],
+            'Options': ['Tear Notch', 'Tear Notch', 'Tear Notch'],
+            'price': [1.274, 2.051, 1.944]
+        })
 
-@app.get("/material_details")
-def get_material_details():
-    try:
-        df = load_quote_data()
-        if "material" not in df.columns:
-            raise HTTPException(status_code=400, detail="Missing 'material' column")
-        materials = df["material"].value_counts().to_dict()
-        return {"materials": materials}
-    except Exception as e:
-        logger.error(f"Error retrieving material details: {e}")
-        raise HTTPException(status_code=500, detail=str(e))
+# Create and train the model
+def train_model(data):
+    # Features to consider
+    numeric_features = ['width', 'height', 'length', 'total_quantity']
+    categorical_features = ['print_method', 'material_id', 'ship_via', 'factory']
+    
+    # Options require special handling as they are comma-separated
+    # For simplicity, we'll treat the entire string as a categorical feature
+    # In a more advanced version, we would extract individual options
+    
+    # Define preprocessing for numeric features
+    numeric_transformer = Pipeline(steps=[
+        ('scaler', StandardScaler())
+    ])
+    
+    # Define preprocessing for categorical features
+    categorical_transformer = Pipeline(steps=[
+        ('onehot', OneHotEncoder(handle_unknown='ignore'))
+    ])
+    
+    # Combine preprocessing steps
+    preprocessor = ColumnTransformer(
+        transformers=[
+            ('num', numeric_transformer, numeric_features),
+            ('cat', categorical_transformer, categorical_features)
+        ],
+        remainder='drop'  # Drop columns not specified
+    )
+    
+    # Create training pipeline with Random Forest regressor
+    pipeline = Pipeline(steps=[
+        ('preprocessor', preprocessor),
+        ('regressor', RandomForestRegressor(n_estimators=100, random_state=42))
+    ])
+    
+    # Prepare X and y
+    X = data[numeric_features + categorical_features + ['Options']]
+    y = data['price']
+    
+    # Convert Options to string in case it's not
+    X['Options'] = X['Options'].astype(str)
+    
+    # Train the model
+    pipeline.fit(X, y)
+    
+    # Save the model
+    model_path = 'price_prediction_model.joblib'
+    joblib.dump(pipeline, model_path)
+    
+    return pipeline, numeric_features, categorical_features
+
+# Calculate feature importances and their impact on price
+def calculate_price_factors(model, numeric_features, categorical_features, input_data, prediction):
+    # Extract the actual random forest model
+    rf_model = model.named_steps['regressor']
+    
+    # Get feature importances
+    feature_importances = rf_model.feature_importances_
+    
+    # Get feature names (considering one-hot encoding)
+    preprocessor = model.named_steps['preprocessor']
+    feature_names = []
+    
+    # Extract feature names from the preprocessor
+    for name, transformer, features in preprocessor.transformers_:
+        if name == 'num':
+            feature_names.extend(features)
+        elif name == 'cat':
+            # Get one-hot encoded feature names
+            for feature in features:
+                if feature in input_data and input_data[feature] is not None:
+                    feature_names.append(f"{feature}={input_data[feature]}")
+    
+    # Create a list of (feature name, importance) tuples
+    importance_pairs = list(zip(feature_names, feature_importances[:len(feature_names)]))
+    
+    # Sort by importance
+    importance_pairs.sort(key=lambda x: x[1], reverse=True)
+    
+    # Create a list of price factors
+    price_factors = []
+    
+    # Include only top 3 factors or all if less than 3
+    top_n = min(3, len(importance_pairs))
+    
+    for i in range(top_n):
+        feature, importance = importance_pairs[i]
+        
+        # Generate explanation based on feature type
+        if feature in numeric_features:
+            explanation = f"{feature} has significant impact on price"
+            impact = f"{importance * 100:.1f}% influence on price"
+        else:
+            feature_name, value = feature.split('=')
+            explanation = f"{feature_name}={value} affects pricing"
+            impact = f"{importance * 100:.1f}% influence on price"
+        
+        price_factors.append({
+            "feature": feature,
+            "explanation": explanation,
+            "impact": impact
+        })
+    
+    return price_factors
+
+# Function to analyze the dataset and provide a price range
+def analyze_and_predict(model, numeric_features, categorical_features, input_data, data):
+    # Create prediction input with user provided fields
+    pred_input = {}
+    
+    # Filter out None values
+    for key, value in input_data.dict().items():
+        if value is not None:
+            pred_input[key] = value
+    
+    # Filter dataset based on provided constraints
+    filtered_df = data.copy()
+    
+    for key, value in pred_input.items():
+        if key in numeric_features:
+            # For numeric features, allow a reasonable range (±10%)
+            lower_bound = value * 0.9
+            upper_bound = value * 1.1
+            filtered_df = filtered_df[(filtered_df[key] >= lower_bound) & (filtered_df[key] <= upper_bound)]
+        elif key in categorical_features or key == 'Options':
+            # For categorical features, exact match
+            filtered_df = filtered_df[filtered_df[key] == value]
+    
+    # If no similar records found, make a model prediction
+    if filtered_df.empty:
+        # Make prediction based on input
+        prediction = model.predict([pred_input])[0]
+        # Use model's feature importances to calculate price range
+        # For simplicity, we'll use ±15% as the price range
+        min_price = max(0, prediction * 0.85)
+        max_price = prediction * 1.15
+    else:
+        # Calculate price range from filtered data
+        min_price = filtered_df['price'].min()
+        max_price = filtered_df['price'].max()
+    
+    # Calculate price factors
+    price_factors = calculate_price_factors(model, numeric_features, categorical_features, pred_input, (min_price + max_price) / 2)
+    
+    return min_price, max_price, price_factors
+
+# Global variables for model and data
+global_data = None
+global_model = None
+global_numeric_features = None
+global_categorical_features = None
+
+@app.on_event("startup")
+async def startup_event():
+    global global_data, global_model, global_numeric_features, global_categorical_features
+    
+    # Load data
+    global_data = load_data()
+    
+    # Train or load model
+    model_path = 'price_prediction_model.joblib'
+    if os.path.exists(model_path):
+        global_model = joblib.load(model_path)
+        # Set feature lists (these would need to be saved separately in production)
+        global_numeric_features = ['width', 'height', 'length', 'total_quantity']
+        global_categorical_features = ['print_method', 'material_id', 'ship_via', 'factory']
+    else:
+        global_model, global_numeric_features, global_categorical_features = train_model(global_data)
+
+@app.post("/predict", response_model=PredictionOutput)
+async def predict_price(input_data: PredictionInput):
+    # Check if at least one parameter is provided
+    if all(value is None for value in input_data.dict().values()):
+        raise HTTPException(status_code=400, detail="At least one parameter must be provided")
+    
+    # Make prediction
+    min_price, max_price, price_factors = analyze_and_predict(
+        global_model, 
+        global_numeric_features, 
+        global_categorical_features,
+        input_data,
+        global_data
+    )
+    
+    return PredictionOutput(
+        min_price=round(min_price, 3),
+        max_price=round(max_price, 3),
+        price_factors=price_factors
+    )
+
+@app.get("/")
+async def root():
+    return {"message": "Welcome "}
+
+# Run FastAPI app with uvicorn explicitly on port 10000
+if __name__ == "__main__":
+    import uvicorn
+    uvicorn.run(app, host="0.0.0.0", port=10000)
