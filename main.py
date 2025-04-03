@@ -3,7 +3,7 @@ from pydantic import BaseModel
 import pandas as pd
 import numpy as np
 import logging
-from material_service import fetch_material_details
+from typing import Optional
 
 # Configure logging
 logging.basicConfig(level=logging.INFO)
@@ -32,13 +32,15 @@ materials_df["recyclable"] = materials_df["recyclable"].str.strip().str.lower()
 materials_df["finish"] = materials_df["finish"].str.strip().str.lower()
 materials_df["opacity"] = materials_df["opacity"].str.strip().str.lower()
 materials_df["factory"] = materials_df["factory"].str.strip().str.lower()
+materials_df["printing_method"] = materials_df["printing_method"].str.strip().str.lower()
 
 # Define input models
 class QueryInput(BaseModel):
     Recyclable: str
     Finish: str
     Opacity: str
-    Factory: str = None
+    Factory: Optional[str] = None
+    Printing_Method: Optional[str] = None
 
 class MaterialQuery(BaseModel):
     recyclable: str
@@ -60,8 +62,9 @@ def query_materials(input_data: QueryInput):
     finish = input_data.Finish.strip().lower()
     opacity = input_data.Opacity.strip().lower()
     factory = input_data.Factory.strip().lower() if input_data.Factory else None
+    printing_method = input_data.Printing_Method.strip().lower() if input_data.Printing_Method else None
 
-    logger.info(f"Sanitized Input: Recyclable={recyclable}, Finish={finish}, Opacity={opacity}, Factory={factory}")
+    logger.info(f"Sanitized Input: Recyclable={recyclable}, Finish={finish}, Opacity={opacity}, Factory={factory}, Printing_Method={printing_method}")
 
     # Filter materials based on input criteria
     filtered_materials = materials_df[
@@ -71,11 +74,12 @@ def query_materials(input_data: QueryInput):
     ]
 
     # Filter by factory if provided
-    if factory:
-        if "factory" in filtered_materials.columns:
-            filtered_materials = filtered_materials[filtered_materials["factory"] == factory]
-        else:
-            logger.warning("'factory' column not found in materials_df.")
+    if factory and "factory" in filtered_materials.columns:
+        filtered_materials = filtered_materials[filtered_materials["factory"] == factory]
+
+    # Filter by printing_method if provided
+    if printing_method and "printing_method" in filtered_materials.columns:
+        filtered_materials = filtered_materials[filtered_materials["printing_method"] == printing_method]
 
     # Count occurrences of materials in quotes
     if "material_id" in filtered_materials.columns and "material_id" in quotes_df.columns:
@@ -110,11 +114,26 @@ def query_materials(input_data: QueryInput):
     sorted_materials.replace([np.inf, -np.inf], 0, inplace=True)
     sorted_materials.fillna(0, inplace=True)
 
+    # Calculate most common size
+    if not sorted_materials.empty and "material_id" in sorted_materials.columns and "material_id" in quotes_df.columns:
+        most_popular_material_id = sorted_materials["material_id"].iloc[0]
+        popular_quotes = quotes_df[quotes_df["material_id"] == most_popular_material_id]
+        if not popular_quotes.empty and "width" in popular_quotes.columns and "height" in popular_quotes.columns:
+            most_common_size = popular_quotes.groupby(["width", "height"]).size().idxmax()
+            most_common_width, most_common_height = most_common_size
+        else:
+            most_common_width, most_common_height = None, None
+    else:
+        most_common_width, most_common_height = None, None
+
     # Drop 'count' column before returning the final result
     result = sorted_materials.drop(columns=["count"], errors="ignore").to_dict(orient="records")
 
     logger.info(f"Query results: {len(result)} materials found")
-    return result
+    if most_common_width is not None and most_common_height is not None:
+        return {"materials": result, "most_common_width": most_common_width, "most_common_height": most_common_height}
+    else:
+        return {"materials": result, "most_common_width": None, "most_common_height": None}
 
 @app.post("/get-material-details/")
 def get_material_details(query: MaterialQuery):
@@ -123,11 +142,11 @@ def get_material_details(query: MaterialQuery):
     Returns all matching materials.
     """
     logging.info(f"Received input: {query.dict()}")
-    result = fetch_material_details(
-        query.recyclable, query.finish, query.opacity
-    )
-    logging.info(f"API Response: {result}")
-    return {"result": result}
+    # result = fetch_material_details(
+    #     query.recyclable, query.finish, query.opacity
+    # )
+    # logging.info(f"API Response: {result}")
+    return {"result": "API call to fetch_material_details() is currently commented out"}
 
 # Run FastAPI app with uvicorn explicitly on port 10000
 if __name__ == "__main__":
