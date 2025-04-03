@@ -1,9 +1,8 @@
-from fastapi import FastAPI
+from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel
 import pandas as pd
-import numpy as np
 import logging
-from material_service import fetch_material_details
+from typing import List, Dict, Any
 
 # Configure logging
 logging.basicConfig(level=logging.INFO)
@@ -11,125 +10,141 @@ logger = logging.getLogger(__name__)
 
 app = FastAPI()
 
-# Load CSV data
-materials_df = pd.read_csv("Materials.csv")
-quotes_df = pd.read_csv("QuoteDetails.csv")
+# Define input model
+class PrintMethodQuery(BaseModel):
+    print_method: str
 
-# Standardize column names to lowercase and strip spaces
-materials_df.columns = materials_df.columns.str.strip().str.lower()
-quotes_df.columns = quotes_df.columns.str.strip().str.lower()
+# Define response model
+class SizeData(BaseModel):
+    width: float
+    height: float
+    count: int
+    percentage: float
 
-# Convert material_id to integers, replacing non-numeric values with NaN
-materials_df["material_id"] = pd.to_numeric(materials_df["material_id"], errors='coerce')
-quotes_df["material_id"] = pd.to_numeric(quotes_df["material_id"], errors='coerce')
+class PrintMethodSizeResponse(BaseModel):
+    print_method: str
+    sizes: List[SizeData]
+    total_count: int
 
-# Drop rows with NaN or zero material_id in both dataframes
-materials_df = materials_df[materials_df["material_id"].notna() & (materials_df["material_id"] != 0)]
-quotes_df = quotes_df[quotes_df["material_id"].notna() & (quotes_df["material_id"] != 0)]
-
-# Clean and standardize the values in other columns
-materials_df["recyclable"] = materials_df["recyclable"].str.strip().str.lower()
-materials_df["finish"] = materials_df["finish"].str.strip().str.lower()
-materials_df["opacity"] = materials_df["opacity"].str.strip().str.lower()
-materials_df["factory"] = materials_df["factory"].str.strip().str.lower()
-
-# Define input models
-class QueryInput(BaseModel):
-    Recyclable: str
-    Finish: str
-    Opacity: str
-    Factory: str = None
-
-class MaterialQuery(BaseModel):
-    recyclable: str
-    finish: str
-    opacity: str
+def load_quote_data():
+    """
+    Load and preprocess the QuoteDetails.csv data
+    """
+    try:
+        quotes_df = pd.read_csv("QuoteDetails.csv")
+        
+        # Standardize column names to lowercase and strip spaces
+        quotes_df.columns = quotes_df.columns.str.strip().str.lower()
+        
+        # Ensure print method, width, and height columns exist
+        required_columns = ['print method', 'width', 'height']
+        if not all(col in quotes_df.columns for col in required_columns):
+            missing = [col for col in required_columns if col not in quotes_df.columns]
+            logger.error(f"Required columns missing from CSV: {missing}")
+            
+            # Map column names if needed
+            if 'printing' in quotes_df.columns and 'print method' not in quotes_df.columns:
+                quotes_df['print method'] = quotes_df['printing']
+            
+        # Convert width and height to numeric, handling errors
+        quotes_df['width'] = pd.to_numeric(quotes_df['width'], errors='coerce')
+        quotes_df['height'] = pd.to_numeric(quotes_df['height'], errors='coerce')
+        
+        # Drop rows with invalid width or height
+        quotes_df = quotes_df.dropna(subset=['width', 'height'])
+        
+        return quotes_df
+    except Exception as e:
+        logger.error(f"Error loading CSV data: {e}")
+        raise HTTPException(status_code=500, detail=f"Error loading data: {str(e)}")
 
 @app.get("/")
 def read_root():
     """Root endpoint with welcome message"""
-    return {"message": "Welcome to the Quote Material API!"}
-
-@app.post("/query-materials")
-def query_materials(input_data: QueryInput):
-    """
-    Query materials based on input criteria and sort by popularity
-    """
-    # Convert input data to lowercase and strip spaces to avoid mismatches
-    recyclable = input_data.Recyclable.strip().lower()
-    finish = input_data.Finish.strip().lower()
-    opacity = input_data.Opacity.strip().lower()
-    factory = input_data.Factory.strip().lower() if input_data.Factory else None
-
-    logger.info(f"Sanitized Input: Recyclable={recyclable}, Finish={finish}, Opacity={opacity}, Factory={factory}")
-
-    # Filter materials based on input criteria
-    filtered_materials = materials_df[
-        (materials_df["recyclable"] == recyclable) &
-        (materials_df["finish"] == finish) &
-        (materials_df["opacity"] == opacity)
-    ]
-
-    # Filter by factory if provided
-    if factory:
-        if "factory" in filtered_materials.columns:
-            filtered_materials = filtered_materials[filtered_materials["factory"] == factory]
-        else:
-            logger.warning("'factory' column not found in materials_df.")
-
-    # Count occurrences of materials in quotes
-    if "material_id" in filtered_materials.columns and "material_id" in quotes_df.columns:
-        material_ids = filtered_materials["material_id"].astype(int).tolist()
-        
-        material_counts = (
-            quotes_df[quotes_df["material_id"].isin(material_ids)]["material_id"]
-            .value_counts()
-            .to_dict()
-        )
-    else:
-        logger.warning("'material_id' column not found in one or both CSVs.")
-        material_counts = {}
-
-    # Map count of occurrences to the filtered materials
-    if "material_id" in filtered_materials.columns:
-        filtered_materials["count"] = (
-            filtered_materials["material_id"]
-            .astype(int)
-            .map(material_counts)
-            .fillna(0)
-            .astype(int)
-        )
-    else:
-        logger.warning("'material_id' column not found in materials_df.")
-        filtered_materials["count"] = 0
-
-    # Sort materials by count of occurrences (from most to least found)
-    sorted_materials = filtered_materials.sort_values(by="count", ascending=False)
-
-    # Handle invalid values to avoid JSON conversion issues
-    sorted_materials.replace([np.inf, -np.inf], 0, inplace=True)
-    sorted_materials.fillna(0, inplace=True)
-
-    # Drop 'count' column before returning the final result
-    result = sorted_materials.drop(columns=["count"], errors="ignore").to_dict(orient="records")
-
-    logger.info(f"Query results: {len(result)} materials found")
-    return result
+    return {"message": "Welcome to the Print Method Size Analyzer API!"}
 
 @app.post("/get-material-details/")
-def get_material_details(query: MaterialQuery):
+def get_material_details(query: PrintMethodQuery):
     """
-    Fetch material details using external API.
-    Returns all matching materials.
+    Query the most commonly requested sizes for a specific printing method
     """
-    logging.info(f"Received input: {query.dict()}")
-    result = fetch_material_details(
-        query.recyclable, query.finish, query.opacity
+    logger.info(f"Received request for print method: {query.print_method}")
+    
+    # Load the quote data
+    quotes_df = load_quote_data()
+    
+    # Standardize the input print method (case-insensitive matching)
+    target_print_method = query.print_method.strip().lower()
+    
+    # Get all available print methods for logging
+    available_methods = quotes_df['print method'].str.lower().unique().tolist()
+    logger.info(f"Available print methods: {available_methods}")
+    
+    # Filter quotes by the requested print method
+    filtered_quotes = quotes_df[quotes_df['print method'].str.lower() == target_print_method]
+    
+    if filtered_quotes.empty:
+        logger.warning(f"No quotes found for print method: {query.print_method}")
+        return PrintMethodSizeResponse(
+            print_method=query.print_method,
+            sizes=[],
+            total_count=0
+        )
+    
+    # Count occurrences of each width-height combination
+    size_counts = (
+        filtered_quotes
+        .groupby(['width', 'height'])
+        .size()
+        .reset_index(name='count')
+        .sort_values('count', ascending=False)
     )
-    logging.info(f"API Response: {result}")
-    return {"result": result}
+    
+    # Calculate percentage of each size
+    total_count = size_counts['count'].sum()
+    size_counts['percentage'] = (size_counts['count'] / total_count * 100).round(2)
+    
+    # Convert to list of dictionaries
+    sizes_list = []
+    for _, row in size_counts.iterrows():
+        sizes_list.append(SizeData(
+            width=float(row['width']),
+            height=float(row['height']),
+            count=int(row['count']),
+            percentage=float(row['percentage'])
+        ))
+    
+    logger.info(f"Found {len(sizes_list)} different sizes for {query.print_method}")
+    
+    # Return the response
+    return PrintMethodSizeResponse(
+        print_method=query.print_method,
+        sizes=sizes_list,
+        total_count=int(total_count)
+    )
 
-# Run FastAPI app with uvicorn explicitly on port 10000
+@app.get("/print-methods")
+def get_print_methods():
+    """
+    List all available print methods in the dataset
+    """
+    quotes_df = load_quote_data()
+    
+    # Get unique print methods and counts
+    print_method_counts = (
+        quotes_df['print method']
+        .str.lower()
+        .value_counts()
+        .reset_index()
+        .rename(columns={'index': 'print_method', 'print method': 'count'})
+    )
+    
+    return {
+        "print_methods": print_method_counts.to_dict(orient='records'),
+        "total_methods": len(print_method_counts)
+    }
+
+# Run FastAPI app with uvicorn
 if __name__ == "__main__":
     import uvicorn
     uvicorn.run(app, host="0.0.0.0", port=10000)
