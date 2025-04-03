@@ -357,6 +357,11 @@ def analyze_and_predict(model, numeric_features, categorical_features, input_dat
             if value is not None:
                 pred_input[key] = value
         
+        # Make sure all required columns exist in pred_df
+        for feature in numeric_features + categorical_features:
+            if feature not in pred_df.columns:
+                pred_df[feature] = None  # or some default value
+
         # Filter dataset based on provided constraints
         filtered_df = data.copy()
         
@@ -395,4 +400,61 @@ def analyze_and_predict(model, numeric_features, categorical_features, input_dat
         return min_price, max_price, price_factors
     except Exception as e:
         logger.error(f"Error in analyze_and_predict: {e}")
-        # Return
+        # Return default values if prediction fails
+        return 1.0, 2.0, [{"feature": "error", "explanation": "Error in prediction", "impact": "100% influence on price"}]
+
+# Global variables for model and data
+global_data = None
+global_model = None
+global_numeric_features = None
+global_categorical_features = None
+
+@app.on_event("startup")
+async def startup_event():
+    global global_data, global_model, global_numeric_features, global_categorical_features
+    
+    # Load data
+    global_data = load_data()
+    
+    # Train or load model
+    model_path = 'price_prediction_model.joblib'
+    if os.path.exists(model_path):
+        try:
+            global_model = joblib.load(model_path)
+            # Set feature lists (these would need to be saved separately in production)
+            global_numeric_features = ['width', 'height', 'length', 'total_quantity']
+            global_categorical_features = ['print_method', 'material_id', 'ship_via', 'factory']
+            logger.info("Successfully loaded existing model")
+        except Exception as e:
+            logger.error(f"Error loading model: {e}")
+            global_model, global_numeric_features, global_categorical_features = train_model(global_data)
+    else:
+        logger.info("Training new model")
+        global_model, global_numeric_features, global_categorical_features = train_model(global_data)
+
+@app.post("/predict", response_model=PredictionOutput)
+async def predict_price(input_data: PredictionInput):
+    logger.info(f"Received data: {input_data.dict()}")
+    # Check if at least one parameter is provided
+    if all(value is None for value in input_data.dict().values()):
+        raise HTTPException(status_code=400, detail="At least one parameter must be provided")
+    
+    # Make prediction
+    min_price, max_price, price_factors = analyze_and_predict(
+        global_model, 
+        global_numeric_features, 
+        global_categorical_features,
+        input_data,
+        global_data
+    )
+    
+    return PredictionOutput(
+        min_price=round(min_price, 3),
+        max_price=round(max_price, 3),
+        price_factors=price_factors
+    )
+
+# Run FastAPI app with uvicorn explicitly on port 10000
+if __name__ == "__main__":
+    import uvicorn
+    uvicorn.run(app, host="0.0.0.0", port=10000)
