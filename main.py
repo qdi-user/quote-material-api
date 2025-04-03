@@ -143,6 +143,51 @@ def get_print_methods():
         "print_methods": print_method_counts.to_dict(orient='records'),
         "total_methods": len(print_method_counts)
     }
+from fastapi import Body
+from fastapi.encoders import jsonable_encoder
+
+@app.post("/query")
+def dynamic_query(filters: Dict[str, Any] = Body(...)):
+    """
+    Accepts a dictionary of filters and returns matching rows from QuoteDetails.csv.
+    Filters can be exact matches or support simple conditions like gt, lt, etc.
+    Width greater than 10 and price less than 2
+    Example input:
+    {
+        "product_line": "Secure Sack CR Bags",
+        "width": { "gt": 10 },
+        "price": { "lt": 2.0 }
+    }
+    """
+    try:
+        df = load_quote_data()
+
+        for key, condition in filters.items():
+            col = key.strip().lower()
+            if isinstance(condition, dict):
+                for op, val in condition.items():
+                    if op == "gt":
+                        df = df[df[col] > val]
+                    elif op == "lt":
+                        df = df[df[col] < val]
+                    elif op == "gte":
+                        df = df[df[col] >= val]
+                    elif op == "lte":
+                        df = df[df[col] <= val]
+                    elif op == "ne":
+                        df = df[df[col] != val]
+                    elif op == "eq":
+                        df = df[df[col] == val]
+            else:
+                df = df[df[col] == condition]
+
+        result = df.to_dict(orient="records")
+        return jsonable_encoder({"count": len(result), "results": result[:100]})  # limit return size
+
+    except Exception as e:
+        logger.error(f"Query error: {e}")
+        raise HTTPException(status_code=500, detail=str(e))
+
 
 # Run FastAPI app with uvicorn
 if __name__ == "__main__":
