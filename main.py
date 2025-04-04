@@ -34,6 +34,45 @@ def fetch_material_details(recyclable, finish, opacity):
         }
     }
 
+# Add this function to your code, near the top with your other utility functions
+def log_dataset_info(df, description="Dataset", max_records_to_print=5):
+    """
+    Always logs dataset stats, but only prints all values when dataset is small
+    
+    Args:
+        df: DataFrame to log information about
+        description: Description to include in log messages
+        max_records_to_print: Maximum number of records to print in full
+    """
+    # Always log basic stats about the dataset
+    logger.info(f"{description} - Record count: {len(df)}")
+    
+    # Log column information
+    if not df.empty:
+        # Get count of non-null values for each column
+        non_null_counts = df.count()
+        logger.info(f"{description} - Column counts:")
+        for col in df.columns:
+            logger.info(f"  {col}: {non_null_counts[col]} non-null values")
+        
+        # Log numeric column stats
+        numeric_cols = df.select_dtypes(include=['number']).columns
+        if len(numeric_cols) > 0:
+            logger.info(f"{description} - Numeric column stats:")
+            for col in numeric_cols:
+                stats = df[col].describe()
+                logger.info(f"  {col}: min={stats['min']:.2f}, max={stats['max']:.2f}, mean={stats['mean']:.2f}")
+    
+    # Only print all values when dataset is small
+    if len(df) <= max_records_to_print and not df.empty:
+        logger.info(f"{description} - Printing all {len(df)} records:")
+        for i, row in df.iterrows():
+            logger.info(f"Record {i}:")
+            for col in row.index:
+                logger.info(f"  {col}: {row[col]}")
+            logger.info("-" * 40)  # Separator between records
+
+
 # Load CSV data with error handling
 def load_csv_data():
     try:
@@ -385,6 +424,7 @@ def analyze_and_predict(model, numeric_features, categorical_features, input_dat
         
         # Log the initial dataset size
         logger.info(f"Initial dataset size: {len(filtered_df)} records")
+        log_dataset_info(filtered_df, "Initial dataset")
         
         # Check if we have required fields (width, height)
         required_fields = ['width', 'height']
@@ -485,6 +525,9 @@ def analyze_and_predict(model, numeric_features, categorical_features, input_dat
         # Log the final filtered dataset size
         logger.info(f"Final filtered dataset size: {len(filtered_df)} records")
         
+         # Log the final filtered dataset
+         log_dataset_info(filtered_df, "Final filtered dataset")
+
         # If we have similar records with price data, use their range
         if not filtered_df.empty and 'price' in filtered_df.columns and len(filtered_df) >= 1:
             min_price = filtered_df['price'].min()
@@ -521,7 +564,7 @@ def analyze_and_predict(model, numeric_features, categorical_features, input_dat
         # Return default values if prediction fails
         return 1.0, 2.0, [{"feature": "error", "explanation": f"Error in prediction: {str(e)}", 
                           "impact": "100% influence on price"}]
-                          
+
 # 3. Update the predict_price endpoint to have only width, height, and product_line as required
 @app.post("/predict", response_model=PredictionOutput)
 async def predict_price(input_data: PredictionInput):
