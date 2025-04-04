@@ -383,34 +383,63 @@ def analyze_and_predict(model, numeric_features, categorical_features, input_dat
         # Start with the complete dataset - don't filter by default
         filtered_df = data.copy()
         
+        # Log the initial dataset size
+        logger.info(f"Initial dataset size: {len(filtered_df)} records")
+        
         # Check if we have required fields (width, height)
         required_fields = ['width', 'height']
         has_required = all(field in pred_input for field in required_fields)
         
         # Only proceed with filtering if we have required fields
         if has_required:
-            # Log the initial dataset size
-            logger.info(f"Initial dataset size: {len(filtered_df)} records")
-            
+            # ------- MUCH WIDER RANGES FOR NUMERIC FEATURES -------
             # Apply filters ONLY for fields that are present in pred_input
             for key, value in pred_input.items():
                 if key in data.columns:
                     if key in numeric_features:
-                        # For numeric features, use a reasonable range (±20%)
-                        lower_bound = float(value) * 0.8
-                        upper_bound = float(value) * 1.2
-                        
-                        # Log before filtering
-                        before_count = len(filtered_df)
-                        
-                        filtered_df = filtered_df[(filtered_df[key] >= lower_bound) & 
-                                                 (filtered_df[key] <= upper_bound)]
+                        # For numeric features, use a MUCH wider range (±50%)
+                        # Small values like 0 need special handling
+                        if key == 'length' and (value == 0 or value == 0.0):
+                            # For length=0, match any length <= 1
+                            before_count = len(filtered_df)
+                            filtered_df = filtered_df[(filtered_df[key] <= 1.0)]
+                        elif value == 0 or value == 0.0:
+                            # For other zero values, match small values
+                            before_count = len(filtered_df)
+                            filtered_df = filtered_df[(filtered_df[key] <= 1.0)]
+                        elif key == 'total_quantity':
+                            # For quantities, use an even wider range (±70%)
+                            before_count = len(filtered_df)
+                            lower_bound = float(value) * 0.3  # 70% less
+                            upper_bound = float(value) * 3.0  # 300% more
+                            filtered_df = filtered_df[(filtered_df[key] >= lower_bound) & 
+                                                    (filtered_df[key] <= upper_bound)]
+                        else:
+                            # For other dimensions, use a 50% range
+                            before_count = len(filtered_df)
+                            lower_bound = float(value) * 0.5  # 50% less
+                            upper_bound = float(value) * 1.5  # 50% more
+                            filtered_df = filtered_df[(filtered_df[key] >= lower_bound) & 
+                                                    (filtered_df[key] <= upper_bound)]
                         
                         # Log after filtering
                         after_count = len(filtered_df)
                         logger.info(f"Filtered by {key}: {before_count} → {after_count} records")
                         
+                        # IMPORTANT: If filtering by this dimension eliminated all records,
+                        # restore the previous state and skip this filter
+                        if after_count == 0 and before_count > 0:
+                            logger.info(f"Skipping {key} filter as it eliminated all matches")
+                            filtered_df = data[data.index.isin(filtered_df.index.tolist() + 
+                                                               data.iloc[:before_count].index.tolist())]
+                    
                     elif key in categorical_features:
+                        # For categorical features, if we have very few records (<5),
+                        # be more lenient with matching
+                        if len(filtered_df) < 5:
+                            logger.info(f"Skipping {key} filter due to low record count ({len(filtered_df)})")
+                            continue
+                            
                         if key == 'material_id':
                             # Special handling for material_id
                             before_count = len(filtered_df)
@@ -422,6 +451,12 @@ def analyze_and_predict(model, numeric_features, categorical_features, input_dat
                             
                             after_count = len(filtered_df)
                             logger.info(f"Filtered by {key}: {before_count} → {after_count} records")
+                            
+                            # If no matches, restore previous state
+                            if after_count == 0 and before_count > 0:
+                                logger.info(f"Skipping {key} filter as it eliminated all matches")
+                                filtered_df = data[data.index.isin(filtered_df.index.tolist() + 
+                                                                 data.iloc[:before_count].index.tolist())]
                         else:
                             # For other categorical features
                             before_count = len(filtered_df)
@@ -430,6 +465,12 @@ def analyze_and_predict(model, numeric_features, categorical_features, input_dat
                             
                             after_count = len(filtered_df)
                             logger.info(f"Filtered by {key}: {before_count} → {after_count} records")
+                            
+                            # If no matches, restore previous state
+                            if after_count == 0 and before_count > 0:
+                                logger.info(f"Skipping {key} filter as it eliminated all matches")
+                                filtered_df = data[data.index.isin(filtered_df.index.tolist() + 
+                                                                 data.iloc[:before_count].index.tolist())]
         
         # Create a DataFrame from pred_input for model prediction
         # This will only contain fields explicitly provided by the user
@@ -451,8 +492,8 @@ def analyze_and_predict(model, numeric_features, categorical_features, input_dat
             
             # If min and max are too close, add some variability
             if abs(max_price - min_price) < 0.01 or len(filtered_df) == 1:
-                min_price = min_price * 0.9
-                max_price = max_price * 1.1
+                min_price = min_price * 0.85
+                max_price = max_price * 1.15
                 
             logger.info(f"Using data-based price range: {min_price} to {max_price} (from {len(filtered_df)} records)")
         else:
