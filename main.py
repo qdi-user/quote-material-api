@@ -1,5 +1,5 @@
 from fastapi import FastAPI, HTTPException
-from pydantic import BaseModel
+from pydantic import BaseModel, validator
 import pandas as pd
 import numpy as np
 import logging
@@ -67,6 +67,23 @@ def load_csv_data():
 
 # Load the data
 materials_df, quotes_df = load_csv_data()
+
+# 1. Fix the material_id handling to work with both string and number formats
+def normalize_material_id(material_id):
+    """
+    Normalize material_id to ensure consistent handling regardless of format.
+    Handles integer, string with leading apostrophe, and regular string formats.
+    """
+    if material_id is None:
+        return None
+        
+    # Convert to string and strip any leading apostrophes or spaces
+    if isinstance(material_id, (int, float)):
+        return str(int(material_id))
+    else:
+        # Strip any leading apostrophes and spaces
+        cleaned = str(material_id).strip().lstrip("'")
+        return cleaned
 
 # Define input models
 class QueryInput(BaseModel):
@@ -346,64 +363,149 @@ def calculate_price_factors(model, numeric_features, categorical_features, input
             {"feature": "material", "explanation": "Material selection affects pricing", "impact": "20.0% influence on price"}
         ]
 
-# Function to analyze the dataset and provide a price range
+# 2. Modify the analyze_and_predict function to properly handle optional fields
 def analyze_and_predict(model, numeric_features, categorical_features, input_data, data):
     try:
         # Create prediction input with user provided fields
         pred_input = {}
         
-        # Filter out None values
+        # Extract non-None values from input
         for key, value in input_data.dict().items():
             if value is not None:
-                pred_input[key] = value
+                # Normalize material_id if present
+                if key == 'material_id':
+                    pred_input[key] = normalize_material_id(value)
+                else:
+                    pred_input[key] = value
 
-        # Create a DataFrame from input
+        # Create a DataFrame from input for prediction
         pred_df = pd.DataFrame([pred_input])
 
-        # Make sure all required columns exist in pred_df
+        # Ensure all required columns exist in pred_df for model prediction
         for feature in numeric_features + categorical_features:
             if feature not in pred_df.columns:
-                pred_df[feature] = None  # or some default value
+                pred_df[feature] = None  # Temporary placeholder for prediction
 
-        # Filter dataset based on provided constraints
+        # Initialize filtered dataframe - don't filter by default
         filtered_df = data.copy()
         
-        for key, value in pred_input.items():
-            if key in data.columns:
-                if key in numeric_features:
-                    # For numeric features, allow a reasonable range (±10%)
-                    lower_bound = value * 0.9
-                    upper_bound = value * 1.1
-                    filtered_df = filtered_df[(filtered_df[key] >= lower_bound) & (filtered_df[key] <= upper_bound)]
-                elif key in categorical_features or key == 'Options':
-                    # For categorical features, exact match
-                    filtered_df = filtered_df[filtered_df[key] == value]
+        # Check if we have required fields (width, height)
+        required_fields = ['width', 'height']
+        has_required = all(field in pred_input and pred_input[field] is not None 
+                          for field in required_fields)
         
-        # If no similar records found, make a model prediction
-        if filtered_df.empty or 'price' not in filtered_df.columns:
-            # Convert the input dictionary to a DataFrame for prediction
+        # Only filter if we have the required fields
+        if has_required:
+            # Filter based on provided fields (not None)
+            for key, value in pred_input.items():
+                if key in data.columns:
+                    if key in numeric_features:
+                        # For numeric features, allow a reasonable range (±20%)
+                        # Wider range to find more matches
+                        lower_bound = float(value) * 0.8
+                        upper_bound = float(value) * 1.2
+                        filtered_df = filtered_df[(filtered_df[key] >= lower_bound) & 
+                                                (filtered_df[key] <= upper_bound)]
+                    elif key in categorical_features:
+                        if key == 'material_id':
+                            # Special handling for material_id to match regardless of format
+                            filtered_df['normalized_material_id'] = filtered_df[key].apply(normalize_material_id)
+                            normalized_value = normalize_material_id(value)
+                            filtered_df = filtered_df[filtered_df['normalized_material_id'] == normalized_value]
+                        else:
+                            # For other categorical features, exact match
+                            filtered_df = filtered_df[filtered_df[key] == value]
+        
+        # Log the number of similar records found
+        logger.info(f"Similar records found: {len(filtered_df)} after filtering")
+        
+        # If we have similar records with price data, use their range
+        if not filtered_df.empty and 'price' in filtered_df.columns:
+            min_price = filtered_df['price'].min()
+            max_price = filtered_df['price'].max()
+            
+            # If min and max are too close, add some variability
+            if abs(max_price - min_price) < 0.01:
+                min_price = min_price * 0.9
+                max_price = max_price * 1.1
+                
+            logger.info(f"Price range from filtered data: {min_price} to {max_price}")
+        else:
+            # If no similar records found, make a model prediction
+            logger.info("No similar records found, using model prediction")
             
             # Make prediction based on input
             prediction = model.predict(pred_df)[0]
             
-            # Use model's feature importances to calculate price range
-            # For simplicity, we'll use ±15% as the price range
-            min_price = max(0, prediction * 0.85)
-            max_price = prediction * 1.15
-        else:
-            # Calculate price range from filtered data
-            min_price = filtered_df['price'].min()
-            max_price = filtered_df['price'].max()
+            # Use a wider range for model predictions to reflect uncertainty
+            min_price = max(0, prediction * 0.8)
+            max_price = prediction * 1.2
+            
+            logger.info(f"Model prediction: {prediction} (range: {min_price} to {max_price})")
         
         # Calculate price factors
-        price_factors = calculate_price_factors(model, numeric_features, categorical_features, pred_input, (min_price + max_price) / 2)
+        price_factors = calculate_price_factors(model, numeric_features, categorical_features, 
+                                                pred_input, (min_price + max_price) / 2)
         
         return min_price, max_price, price_factors
     except Exception as e:
         logger.error(f"Error in analyze_and_predict: {e}")
         # Return default values if prediction fails
-        return 1.0, 2.0, [{"feature": "error", "explanation": "Error in prediction", "impact": "100% influence on price"}]
+        return 1.0, 2.0, [{"feature": "error", "explanation": f"Error in prediction: {str(e)}", 
+                          "impact": "100% influence on price"}]
 
+# 3. Update the predict_price endpoint to have only width, height, and product_line as required
+@app.post("/predict", response_model=PredictionOutput)
+async def predict_price(input_data: PredictionInput):
+    logger.info(f"Received data: {input_data.dict()}")
+    
+    # Check if required parameters are provided
+    required_fields = ['width', 'height']
+    missing_fields = [field for field in required_fields 
+                     if field not in input_data.dict() or input_data.dict()[field] is None]
+    
+    if missing_fields:
+        raise HTTPException(status_code=400, 
+                           detail=f"Required parameters missing: {', '.join(missing_fields)}")
+    
+    # Make prediction
+    min_price, max_price, price_factors = analyze_and_predict(
+        global_model, 
+        global_numeric_features, 
+        global_categorical_features,
+        input_data,
+        global_data
+    )
+    
+    return PredictionOutput(
+        min_price=round(min_price, 3),
+        max_price=round(max_price, 3),
+        price_factors=price_factors
+    )
+
+# 4. Update the PredictionInput model to better handle different types
+class PredictionInput(BaseModel):
+    width: Optional[Union[float, str]] = None
+    height: Optional[Union[float, str]] = None
+    length: Optional[Union[float, str]] = None
+    print_method: Optional[str] = None
+    material_id: Optional[Union[str, int]] = None
+    ship_via: Optional[str] = None
+    factory: Optional[str] = None
+    total_quantity: Optional[Union[int, str]] = None
+    options: Optional[str] = None
+    product_line: Optional[str] = None
+    
+    # Add a validator to convert string numeric values to proper types
+    @validator('width', 'height', 'length', 'total_quantity', pre=True)
+    def parse_numeric_values(cls, v):
+        if isinstance(v, str) and v.strip():
+            try:
+                return float(v.strip())
+            except ValueError:
+                pass
+        return v
+        
 # Global variables for model and data
 global_data = None
 global_model = None
