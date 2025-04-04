@@ -366,7 +366,7 @@ def calculate_price_factors(model, numeric_features, categorical_features, input
 # 2. Modify the analyze_and_predict function to properly handle optional fields
 def analyze_and_predict(model, numeric_features, categorical_features, input_data, data):
     try:
-        # Create prediction input with user provided fields
+        # Create prediction input dictionary with only provided fields
         pred_input = {}
         
         # Extract non-None values from input
@@ -378,61 +378,86 @@ def analyze_and_predict(model, numeric_features, categorical_features, input_dat
                 else:
                     pred_input[key] = value
 
-        # Create a DataFrame from input for prediction
-        pred_df = pd.DataFrame([pred_input])
-
-        # Ensure all required columns exist in pred_df for model prediction
-        for feature in numeric_features + categorical_features:
-            if feature not in pred_df.columns:
-                pred_df[feature] = None  # Temporary placeholder for prediction
-
-        # Initialize filtered dataframe - don't filter by default
+        logger.info(f"Filtered input data (non-None values only): {pred_input}")
+        
+        # Start with the complete dataset - don't filter by default
         filtered_df = data.copy()
         
         # Check if we have required fields (width, height)
         required_fields = ['width', 'height']
-        has_required = all(field in pred_input and pred_input[field] is not None 
-                          for field in required_fields)
+        has_required = all(field in pred_input for field in required_fields)
         
-        # Only filter if we have the required fields
+        # Only proceed with filtering if we have required fields
         if has_required:
-            # Filter based on provided fields (not None)
+            # Log the initial dataset size
+            logger.info(f"Initial dataset size: {len(filtered_df)} records")
+            
+            # Apply filters ONLY for fields that are present in pred_input
             for key, value in pred_input.items():
                 if key in data.columns:
                     if key in numeric_features:
-                        # For numeric features, allow a reasonable range (±20%)
-                        # Wider range to find more matches
+                        # For numeric features, use a reasonable range (±20%)
                         lower_bound = float(value) * 0.8
                         upper_bound = float(value) * 1.2
+                        
+                        # Log before filtering
+                        before_count = len(filtered_df)
+                        
                         filtered_df = filtered_df[(filtered_df[key] >= lower_bound) & 
-                                                (filtered_df[key] <= upper_bound)]
+                                                 (filtered_df[key] <= upper_bound)]
+                        
+                        # Log after filtering
+                        after_count = len(filtered_df)
+                        logger.info(f"Filtered by {key}: {before_count} → {after_count} records")
+                        
                     elif key in categorical_features:
                         if key == 'material_id':
-                            # Special handling for material_id to match regardless of format
-                            filtered_df['normalized_material_id'] = filtered_df[key].apply(normalize_material_id)
+                            # Special handling for material_id
+                            before_count = len(filtered_df)
+                            
+                            # Create normalized version for comparison
                             normalized_value = normalize_material_id(value)
+                            filtered_df['normalized_material_id'] = filtered_df[key].apply(normalize_material_id)
                             filtered_df = filtered_df[filtered_df['normalized_material_id'] == normalized_value]
+                            
+                            after_count = len(filtered_df)
+                            logger.info(f"Filtered by {key}: {before_count} → {after_count} records")
                         else:
-                            # For other categorical features, exact match
+                            # For other categorical features
+                            before_count = len(filtered_df)
+                            
                             filtered_df = filtered_df[filtered_df[key] == value]
+                            
+                            after_count = len(filtered_df)
+                            logger.info(f"Filtered by {key}: {before_count} → {after_count} records")
         
-        # Log the number of similar records found
-        logger.info(f"Similar records found: {len(filtered_df)} after filtering")
+        # Create a DataFrame from pred_input for model prediction
+        # This will only contain fields explicitly provided by the user
+        pred_df = pd.DataFrame([pred_input])
+        
+        # Add missing required columns for the model with None values
+        # This is only for the model prediction, not for filtering
+        for feature in numeric_features + categorical_features:
+            if feature not in pred_df.columns:
+                pred_df[feature] = None
+        
+        # Log the final filtered dataset size
+        logger.info(f"Final filtered dataset size: {len(filtered_df)} records")
         
         # If we have similar records with price data, use their range
-        if not filtered_df.empty and 'price' in filtered_df.columns:
+        if not filtered_df.empty and 'price' in filtered_df.columns and len(filtered_df) >= 1:
             min_price = filtered_df['price'].min()
             max_price = filtered_df['price'].max()
             
             # If min and max are too close, add some variability
-            if abs(max_price - min_price) < 0.01:
+            if abs(max_price - min_price) < 0.01 or len(filtered_df) == 1:
                 min_price = min_price * 0.9
                 max_price = max_price * 1.1
                 
-            logger.info(f"Price range from filtered data: {min_price} to {max_price}")
+            logger.info(f"Using data-based price range: {min_price} to {max_price} (from {len(filtered_df)} records)")
         else:
             # If no similar records found, make a model prediction
-            logger.info("No similar records found, using model prediction")
+            logger.info("No similar records found or filtered dataset empty, using model prediction")
             
             # Make prediction based on input
             prediction = model.predict(pred_df)[0]
@@ -450,10 +475,12 @@ def analyze_and_predict(model, numeric_features, categorical_features, input_dat
         return min_price, max_price, price_factors
     except Exception as e:
         logger.error(f"Error in analyze_and_predict: {e}")
+        import traceback
+        logger.error(traceback.format_exc())
         # Return default values if prediction fails
         return 1.0, 2.0, [{"feature": "error", "explanation": f"Error in prediction: {str(e)}", 
                           "impact": "100% influence on price"}]
-
+                          
 # 3. Update the predict_price endpoint to have only width, height, and product_line as required
 @app.post("/predict", response_model=PredictionOutput)
 async def predict_price(input_data: PredictionInput):
@@ -505,7 +532,7 @@ class PredictionInput(BaseModel):
             except ValueError:
                 pass
         return v
-        
+
 # Global variables for model and data
 global_data = None
 global_model = None
