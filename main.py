@@ -525,8 +525,8 @@ def analyze_and_predict(model, numeric_features, categorical_features, input_dat
         # Log the final filtered dataset size
         logger.info(f"Final filtered dataset size: {len(filtered_df)} records")
         
-         # Log the final filtered dataset
-         log_dataset_info(filtered_df, "Final filtered dataset")
+        # Log the final filtered dataset
+        log_dataset_info(filtered_df, "Final filtered dataset")
 
         # If we have similar records with price data, use their range
         if not filtered_df.empty and 'price' in filtered_df.columns and len(filtered_df) >= 1:
@@ -645,28 +645,6 @@ async def startup_event():
     else:
         logger.info("Training new model")
         global_model, global_numeric_features, global_categorical_features = train_model(global_data)
-
-@app.post("/predict", response_model=PredictionOutput)
-async def predict_price(input_data: PredictionInput):
-    logger.info(f"Received data: {input_data.dict()}")
-    # Check if at least one parameter is provided
-    if all(value is None for value in input_data.dict().values()):
-        raise HTTPException(status_code=400, detail="At least one parameter must be provided")
-    
-    # Make prediction
-    min_price, max_price, price_factors = analyze_and_predict(
-        global_model, 
-        global_numeric_features, 
-        global_categorical_features,
-        input_data,
-        global_data
-    )
-    
-    return PredictionOutput(
-        min_price=round(min_price, 3),
-        max_price=round(max_price, 3),
-        price_factors=price_factors
-    )
 
 # Run FastAPI app with uvicorn explicitly on port 10000
 if __name__ == "__main__":
